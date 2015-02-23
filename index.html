@@ -2,21 +2,33 @@
 <head>
 <title>Valideater demo page</title>
 	<style>
-		form { width:500px; margin:20 auto; }
+		form { width:400px; margin:20 auto; }
 		form input[type*=e] { display:block; width:100%; margin:0 0 20px; font-size:14px; padding:5px; }
 		form input[type*=e].error { margin-bottom:5px; }
 
 		form fieldset { border:none; padding:0; margin:0 0 20px; }
 		.js-alert { font-size:12px; margin:0 0 10px; padding:0; color:red; display:block; }
 		.js-error { border:1px solid red;}
+
+		.dob { overflow:hidden; }
+		.dob input[type=number] { width:30%; float:left; }
+		.dob input[type=number] + input[type=number] { margin-left:5%; }
 	</style>
 </head>
 <body>
 
 <form action="http://www.success.com/">
-	<input type="text" placeholder="Name" data-valideater="required" data-error-msg-required="My unique attribute error msg">
+	<input type="text" placeholder="Name" data-valideater="required">
+	<input type="text" placeholder="Company" data-valideater="alpha" data-error-msg-alpha="My unique alpha attribute error msg">
+	<input type="text" placeholder="Username" data-valideater="alphanumeric">
 	<input type="email" placeholder="Email" data-valideater="required,email">
 	<input type="text" placeholder="Postcode" data-valideater="postcode">
+
+	<div data-valideater="dob" class="dob">
+		<input type="number" placeholder="DD" min="1" max="31">
+		<input type="number" placeholder="MM" min="1" max="12">
+		<input type="number" placeholder="YYYY" min="1900" max="2015">
+	</div>
 
 	<fieldset class="gender" data-valideater="radio">
 		<input type="radio" value="f" id="female" class="branded">

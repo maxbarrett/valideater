@@ -10,11 +10,11 @@
 				'alpha':		'Value must be letters',
 				'alphanumeric': 'Letters and numbers required',
 				'dob':			'Please give a valid date of birth',
-				'over18':		'You must be 18 or over',
 				'email':		'Invalid email',
 				'matches':		'These values do not match',
-				'numeric':		'Value must be numeric',
 				'min4':			'At least 4 characters please',
+				'numeric':		'Value must be numeric',
+				'over18':		'You must be 18 or over',
 				'postcode':		'Invalid postcode',
 				'radio':		'Please choose an option',
 				'required':		'This information is required',
@@ -54,29 +54,26 @@
 				});
 
 				// focus on the first error field
-				var firstError = $('.error:first');
+				var firstError = $('.error:first'),
+					formInputs = 'input, select, textarea, button';
 
-				if ( firstError.is('input, select, textarea, button') ) {
+				if ( firstError.is(formInputs) ) {
 					firstError.focus();
 				} else {
-					firstError.find('input, select, textarea, button').focus();
+					firstError.find(formInputs).focus();
 				}
 			},
 
 			//////////////////////////// START OF VALIDATIONS /////////////////////////////////////
-
 			// IF RETURN IS TRUE THEN THERE'S AN ERROR
-			required: function(el) {
-				var placeholder = $(el).attr('placeholder');
-				return (el.val() === '' || el.val() === placeholder);
+			
+			alpha: function(el) {
+				return (/^[a-zA-Z]+$/.test(el.val()) === false || el.val() === '');
 			},
 
-			radio: function(el) {
-				// radios are wrapped in a div, so find the kids
-				var checked = function(){ return this.checked; },
-					radios = $('input[type=radio]', el);
-
-				return radios.filter(checked).length ? false : true;
+			alphanumeric: function(el) {
+				var reg = /^[a-zA-Z\d]+$/;
+				return (reg.test(el.val()) === false);
 			},
 
 			dob: function(el) {
@@ -108,6 +105,29 @@
 				return dobError;
 			},
 
+			email: function(el) {
+				var reg = /^([A-Za-z0-9_\'\-\.\+])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+				return (reg.test(el.val()) === false);
+			},
+
+			// The matches input should come after the one with the id
+			// The matches input shouldn't need any other validation (the matcher should have those)
+			matches: function(el) {
+				var matchesId = el.attr('data-valideater-matches'),
+					matchesValue = $('#' + matchesId).val();
+
+				return (el.val() !== matchesValue);
+			},
+
+			min4: function(el) {
+				var fieldValue = el.val();
+				return (fieldValue.length < 4 && fieldValue !== '');
+			},
+
+			numeric: function(el) {
+				return isNaN(el.val());
+			},
+
 			over18: function(el) {
 				var dobs = el.children('input, select'),
 					ageError = false;
@@ -133,27 +153,6 @@
 				return ageError;
 			},
 
-			alpha: function(el) {
-				var fieldValue = el.val(),
-					reg = /^[a-zA-Z]+$/;
-
-				return reg.test(fieldValue) === false && fieldValue !== '';
-			},
-
-			numeric: function(el) {
-				return isNaN(el.val());
-			},
-
-			alphanumeric: function(el) {
-				var reg = /^[a-zA-Z\d]+$/;
-				return (reg.test(el.val()) === false);
-			},
-
-			email: function(el) {
-				var reg = /^([A-Za-z0-9_\'\-\.\+])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-				return (reg.test(el.val()) === false);
-			},
-
 			postcode: function(el) {
 				var fieldValue = el.val(),
 					reg = /(((([A-PR-UWYZ][0-9][0-9A-HJKS-UW]?)|([A-PR-UWYZ][A-HK-Y][0-9][0-9ABEHMNPRV-Y]?))\s{0,2}[0-9]([ABD-HJLNP-UW-Z]{2}))|(GIR\s{0,2}0AA))/i,
@@ -170,19 +169,17 @@
 				return (reg.test(fieldValue) === false || fieldValue.length > length);
 			},
 
-			min4: function(el) {
-				var fieldValue = el.val();
+			radio: function(el) {
+				// radios are wrapped in a div, so find the kids
+				var checked = function(){ return this.checked; },
+					radios = $('input[type=radio]', el);
 
-				return (fieldValue.length < 4 && fieldValue !== '');
+				return radios.filter(checked).length ? false : true;
 			},
 
-			// The matches input should come after the one with the id
-			// The matches input shouldn't need any other validation (the matcher should have those)
-			matches: function(el) {
-				var matchesId = el.attr('data-valideater-matches'),
-					matchesValue = $('#' + matchesId).val();
-
-				return (el.val() !== matchesValue);
+			required: function(el) {
+				var placeholder = $(el).attr('placeholder');
+				return (el.val() === '' || el.val() === placeholder);
 			},
 
 			//////////////////////////// END OF VALIDATIONS /////////////////////////////////////

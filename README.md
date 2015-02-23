@@ -64,6 +64,9 @@ Various `js-error` and `js-alert` css classes are added to the markup for stylin
 
 ### WIP:
 
+* Alphanumeric
+Broken
+
 * Radio buttons
 The `data-valideater` attribute must be on a wrapping parent element, so as not to interfere with other unrelated radio buttons in the form.
 
