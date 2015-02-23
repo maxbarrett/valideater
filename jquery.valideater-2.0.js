@@ -205,7 +205,7 @@
 					var customMsg = el.attr('data-error-msg-' + validor),
 						msg = (customMsg) ? customMsg : settings[validor];
 
-					el.after('<span class="js-alert alert-' + validor + ' ' + el.ref + '">' + msg + '</span>');
+					el.after('<span class="js-alert js-alert-' + validor + ' js-' + el.ref + '">' + msg + '</span>');
 				}
 			},
 
@@ -215,7 +215,7 @@
 					return prop !== validor;
 				});
 
-				$('.alert-' + validor + '.' + el.ref).remove();
+				$('.js-alert-' + validor + '.js-' + el.ref).remove();
 
 				if (methods.invalidElements[el.ref].length === 0){
 					el.removeClass('js-error');

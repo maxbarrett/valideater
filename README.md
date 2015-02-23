@@ -48,7 +48,7 @@ Or individually as a `data-error-msg-[validation name]` attribute in the markup 
 <input type="text" data-valideater="required" data-error-msg-required="My unique error msg">
 ```
 
-Forms with errors are re-validated on each keystroke by default, turn off by setting `liveCheck` to `false`:
+Forms with errors are re-validated on each keystroke by default, you can prevent this by setting `liveCheck` to `false`. The form will then be re-validated on submit.
 
 ```sh
 $('form').valideater({
@@ -59,7 +59,7 @@ $('form').valideater({
 
 ### CSS:
 
-Various error and alert css classes are added to the markup for styling, go nuts.
+Various `js-error` and `js-alert` css classes are added to the markup for styling, go nuts.
 
 
 ### WIP:
