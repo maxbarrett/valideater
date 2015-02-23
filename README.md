@@ -10,10 +10,7 @@ $('form').each(function () {
 });
 ```
 
-
-
-
-List of validation checks and their corresponding default error message:
+List of validation checks and default error messages:
 
 * alpha:			'Value must be letters',
 * alphanumeric:	'Letters and numbers required',
@@ -27,18 +24,13 @@ List of validation checks and their corresponding default error message:
 * radio:			'Please choose an option',
 * required:		'This information is required'
 
-
-
-
 Error messages can be customised either at initialisation:
 
 ```sh
-$('form').each(function () {
-	$(this).valideater({
-			'alpha':		'Custom error message',
-			'alphanumeric':	'Say what you like',
-			'dob':			'For each form on the page',
-	});
+$('form.register').valideater({
+	alpha:			'Custom error message',
+	alphanumeric:	'Say what you like',
+	dob:			'For each form on the page'
 });
 ```
 
@@ -46,9 +38,6 @@ Or individually in the markup – these take precedence over initialisation cust
 ```sh
 <input type="text" data-valideater="required" data-error-msg-required="My unique error msg">
 ```
-
-
-
 
 Various error and alert css classes are added to markup for styling.
 
