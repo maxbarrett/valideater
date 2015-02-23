@@ -15,7 +15,7 @@
 <body>
 
 <form>
-	<input type="text" placeholder="Name" data-valideater="required" data-error-msg-required="My unique error message">
+	<input type="text" placeholder="Name" data-valideater="required" data-error-msg-required="My unique attribute error message">
 	<input type="email" placeholder="Email" data-valideater="required,email">
 	<input type="text" placeholder="Postcode" data-valideater="postcode">
 
@@ -36,7 +36,7 @@
 
 <script>
 	$('form').each(function () {
-		$(this).valideater({required:'poop'});
+		$(this).valideater();
 	});
 </script>
 
