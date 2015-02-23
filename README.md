@@ -10,7 +10,7 @@ $('form').each(function () {
 });
 ```
 
-Default error messages:
+List of validation checks and their corresponding default error message:
 
 * 'alpha':			'Value must be letters',
 * 'alphanumeric':	'Letters and numbers required',
@@ -39,5 +39,5 @@ $('form').each(function () {
 
 Or per input field in the markup – These take precedence over per initialisation customisations shown above.
 ```sh
-<input type="text" data-valideater="required" data-error-msg-required="My unique error message">
-});
+<input type="text" data-valideater="required" data-error-msg-required="My unique error msg">
+```
