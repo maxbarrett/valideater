@@ -28,19 +28,16 @@
 			invalidElements: {}, // filled dynamically by addError():
 
 			init: function() {
-
 				return thisForm.on('submit', function() {
-
 					// Clear all errors
 					methods.hasErrors = false;
 					// Run the checks
 					methods.validate();
-
 					return (methods.hasErrors === false) ? true : false;
 				});
 			},
 
-			//////////////////////////// START OF CHECKS /////////////////////////////////////
+			//////////////////////////// START OF VALIDATIONS /////////////////////////////////////
 
 			// IF RETURN IS TRUE THEN THERE'S AN ERROR
 			required: function(el) {
@@ -162,7 +159,7 @@
 				return (el.val() !== matchesValue);
 			},
 
-			//////////////////////////// END OF CHECKS /////////////////////////////////////
+			//////////////////////////// END OF VALIDATIONS /////////////////////////////////////
 
 			addError: function(el, validor){
 				// create el obj prop with array of errors

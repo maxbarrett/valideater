@@ -1,21 +1,20 @@
 <html>
 <head>
 <title>Valideater demo page</title>
-<style>
-	form { width:500px; margin:20 auto; }
-	form input[type*=e] { display:block; width:100%; margin:0 0 20px; font-size:14px; padding:5px; }
-	form input[type*=e].error { margin-bottom:5px; }
+	<style>
+		form { width:500px; margin:20 auto; }
+		form input[type*=e] { display:block; width:100%; margin:0 0 20px; font-size:14px; padding:5px; }
+		form input[type*=e].error { margin-bottom:5px; }
 
-	form fieldset { border:none; padding:0; margin:0 0 20px; }
-	.js-alert { font-size:12px; margin:0 0 10px; padding:0; color:red; display:block; }
-	.js-error { border:1px solid red;}
-
-</style>
+		form fieldset { border:none; padding:0; margin:0 0 20px; }
+		.js-alert { font-size:12px; margin:0 0 10px; padding:0; color:red; display:block; }
+		.js-error { border:1px solid red;}
+	</style>
 </head>
 <body>
 
-<form>
-	<input type="text" placeholder="Name" data-valideater="required" data-error-msg-required="My unique attribute error message">
+<form action="http://www.success.com/">
+	<input type="text" placeholder="Name" data-valideater="required" data-error-msg-required="My unique attribute error msg">
 	<input type="email" placeholder="Email" data-valideater="required,email">
 	<input type="text" placeholder="Postcode" data-valideater="postcode">
 

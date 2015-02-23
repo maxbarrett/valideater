@@ -31,6 +31,7 @@ To declare a validation on an element, add a `data-valideater` attribute with an
 
 ```
 
+### Customisation
 
 Error messages can be customised either at initialisation:
 
@@ -42,10 +43,33 @@ $('form.register').valideater({
 });
 ```
 
-Or individually as an attribute in the markup – these take precedence over initialisation customisations shown above.
+Or individually as a `data-error-msg-[validation name]` attribute in the markup – these take precedence over the initialisation customisations shown above.
 ```sh
 <input type="text" data-valideater="required" data-error-msg-required="My unique error msg">
 ```
 
-Various error and alert css classes are added to the markup for styling.
+### CSS:
+
+Various error and alert css classes are added to the markup for styling, go nuts.
+
+
+### WIP:
+
+* Radio buttons
+The `data-valideater` attribute must be on a wrapping parent element, so as not to interfere with other unrelated radio buttons in the form.
+
+* Date of birth
+Needs work...
+
+* Over18
+Also needs TLC...
+
+* Postcode
+Containsspace improvement required
+
+* Matches
+Needs explaining
+
+
+
 
