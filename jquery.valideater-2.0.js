@@ -25,6 +25,7 @@
 		var methods = {
 
 			hasErrors: false,
+			invalidElements: {}, // filled dynamically by addError():
 
 			init: function() {
 
@@ -32,27 +33,16 @@
 
 					// Clear all errors
 					methods.hasErrors = false;
-
 					// Run the checks
 					methods.validate();
 
-					if (methods.hasErrors === false) {
-						console.log('submit');
-						return true;
-					} else {
-						console.log('halt');
-						return false;
-					}
-
+					return (methods.hasErrors === false) ? true : false;
 				});
 			},
 
-			// filled dynamically by addError():
-			invalidElements: {},
-
 			//////////////////////////// START OF CHECKS /////////////////////////////////////
 
-			// RETURN TRUE = THERE'S AN ERROR
+			// IF RETURN IS TRUE THEN THERE'S AN ERROR
 			required: function(el) {
 				var placeholder = $(el).attr('placeholder');
 				return (el.val() === '' || el.val() === placeholder);
@@ -190,7 +180,7 @@
 
 				if (el.attr('data-alert') !== false) {
 					var customMsg = el.attr('data-error-msg-' + validor),
-						msg = (customMsg) ? customMsg : errorMsgs[validor];
+						msg = (customMsg) ? customMsg : settings[validor];
 
 					el.after('<span class="js-alert alert-' + validor + ' ' + el.ref + '">' + msg + '</span>');
 				}

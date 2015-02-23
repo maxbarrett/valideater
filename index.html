@@ -15,7 +15,7 @@
 <body>
 
 <form>
-	<input type="text" placeholder="First Name" data-valideater="required">
+	<input type="text" placeholder="Name" data-valideater="required" data-error-msg-required="My unique error message">
 	<input type="email" placeholder="Email" data-valideater="required,email">
 	<input type="text" placeholder="Postcode" data-valideater="postcode">
 
@@ -30,15 +30,13 @@
 	<input type="submit" value="Submit">
 </form>
 
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="jquery.valideater-2.0.js"></script>
 
 <script>
 	$('form').each(function () {
-		var form = $(this);
-		if ($('[data-valideater]', form).length) {
-			form.valideater();
-		}
+		$(this).valideater({required:'poop'});
 	});
 </script>
 
