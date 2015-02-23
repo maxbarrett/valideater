@@ -6,7 +6,7 @@
 		thisForm.attr('novalidate', '');
 
 		// Default, overridable error messages
-		var errorMsgs = {
+		var defaults = {
 				'alpha':		'Value must be letters',
 				'alphanumeric': 'Letters and numbers required',
 				'dob':			'Please give a valid date of birth',
@@ -17,10 +17,11 @@
 				'min4':			'At least 4 characters please',
 				'postcode':		'Invalid postcode',
 				'radio':		'Please choose an option',
-				'required':		'This information is required'
+				'required':		'This information is required',
+				'liveCheck':	true
 		};
 
-		var settings = $.extend( {}, errorMsgs, options );
+		var settings = $.extend({}, defaults, options);
 
 		var methods = {
 
@@ -29,12 +30,37 @@
 
 			init: function() {
 				return thisForm.on('submit', function() {
-					// Clear all errors
+					// Reset errors
 					methods.hasErrors = false;
 					// Run the checks
 					methods.validate();
-					return (methods.hasErrors === false) ? true : false;
+
+					if (methods.hasErrors === false) {
+						// Submit the form
+						return true;
+					} else if (settings.liveCheck === true) {
+						methods.liveCheck();
+						return false;
+					} else {
+						return false;
+					}
 				});
+			},
+
+			liveCheck: function(){
+				// 'change' is better for wrapped inputs & radio/checkboxes
+				$('[data-valideater]', thisForm).on('change keyup', function() {
+					methods.validate();
+				});
+
+				// focus on the first error field
+				var firstError = $('.error:first');
+
+				if ( firstError.is('input, select, textarea, button') ) {
+					firstError.focus();
+				} else {
+					firstError.find('input, select, textarea, button').focus();
+				}
 			},
 
 			//////////////////////////// START OF VALIDATIONS /////////////////////////////////////
@@ -225,11 +251,8 @@
 
 				if (containsErrors.length) { methods.hasErrors = true; }
 			}
-
 		};
-
 		return methods.init.apply(this);
-
 	};
 
 })(window.jQuery || window.Zepto);

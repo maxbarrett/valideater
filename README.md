@@ -48,6 +48,15 @@ Or individually as a `data-error-msg-[validation name]` attribute in the markup 
 <input type="text" data-valideater="required" data-error-msg-required="My unique error msg">
 ```
 
+Forms with errors are re-validated on each keystroke by default, this can be switched off by switching the `liveCheck' setting to `false`:
+
+```sh
+$('form').valideater({
+	liveCheck: false
+});
+```
+
+
 ### CSS:
 
 Various error and alert css classes are added to the markup for styling, go nuts.
@@ -55,19 +64,19 @@ Various error and alert css classes are added to the markup for styling, go nuts
 
 ### WIP:
 
-* Radio buttons
+** Radio buttons ** 
 The `data-valideater` attribute must be on a wrapping parent element, so as not to interfere with other unrelated radio buttons in the form.
 
-* Date of birth
+** Date of birth ** 
 Needs work...
 
-* Over18
+** Over18 ** 
 Also needs TLC...
 
-* Postcode
+** Postcode ** 
 Containsspace improvement required
 
-* Matches
+** Matches ** 
 Needs explaining
 
 
