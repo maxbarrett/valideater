@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Valideater demo page</title>
+<style>
+	form { width:500px; margin:20 auto; }
+	form input[type*=e] { display:block; width:100%; margin:0 0 20px; font-size:14px; padding:5px; }
+	form input[type*=e].error { margin-bottom:5px; }
+
+	form fieldset { border:none; padding:0; margin:0 0 20px; }
+	.js-alert { font-size:12px; margin:0 0 10px; padding:0; color:red; display:block; }
+	.js-error { border:1px solid red;}
+
+</style>
+</head>
+<body>
+
+<form>
+	<input type="text" placeholder="First Name" data-valideater="required">
+	<input type="email" placeholder="Email" data-valideater="required,email">
+	<input type="text" placeholder="Postcode" data-valideater="postcode">
+
+	<fieldset class="gender" data-valideater="radio">
+		<input type="radio" value="f" id="female" class="branded">
+		<label for="female">Female</label>
+		<br>
+		<input type="radio" value="m" id="male" class="branded">
+		<label for="male">Male</label>
+	</fieldset>
+
+	<input type="submit" value="Submit">
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="jquery.valideater-2.0.js"></script>
+
+<script>
+	$('form').each(function () {
+		var form = $(this);
+		if ($('[data-valideater]', form).length) {
+			form.valideater();
+		}
+	});
+</script>
+
+</body>
+</html>
