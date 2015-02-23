@@ -1,6 +1,6 @@
 # Valideater 2.0
 
-A jQuery form validation plugin using HTML data attributes.
+A jQuery/Zepto form validation plugin using HTML data attributes.
 
 To initialise each form on a page:
 
