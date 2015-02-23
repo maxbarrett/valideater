@@ -10,6 +10,9 @@ $('form').each(function () {
 });
 ```
 
+
+
+
 List of validation checks and their corresponding default error message:
 
 * alpha:			'Value must be letters',
@@ -25,7 +28,9 @@ List of validation checks and their corresponding default error message:
 * required:		'This information is required'
 
 
-Customise error messages either per initialisation:
+
+
+Error messages can be customised either at initialisation:
 
 ```sh
 $('form').each(function () {
@@ -37,7 +42,13 @@ $('form').each(function () {
 });
 ```
 
-Or per input field in the markup – These take precedence over per initialisation customisations shown above.
+Or individually in the markup – these take precedence over initialisation customisations shown above.
 ```sh
 <input type="text" data-valideater="required" data-error-msg-required="My unique error msg">
 ```
+
+
+
+
+Various error and alert css classes are added to markup for styling.
+
