@@ -1,4 +1,4 @@
-# Valideater
+# Valideater 2.0
 
 A jQuery form validation plugin using HTML data attributes.
 
