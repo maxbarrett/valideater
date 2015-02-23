@@ -12,17 +12,17 @@ $('form').each(function () {
 
 List of validation checks and their corresponding default error message:
 
-* 'alpha':			'Value must be letters',
-* 'alphanumeric':	'Letters and numbers required',
-* 'dob':			'Please give a valid date of birth',
-* 'over18':			'You must be 18 or over',
-* 'email':			'Invalid email',
-* 'matches':		'These values do not match',
-* 'numeric':		'Value must be numeric',
-* 'min4':			'At least 4 characters please',
-* 'postcode':		'Invalid postcode',
-* 'radio':			'Please choose an option',
-* 'required':		'This information is required'
+* alpha:			'Value must be letters',
+* alphanumeric:	'Letters and numbers required',
+* dob:			'Please give a valid date of birth',
+* over18:			'You must be 18 or over',
+* email:			'Invalid email',
+* matches:		'These values do not match',
+* numeric:		'Value must be numeric',
+* min4:			'At least 4 characters please',
+* postcode:		'Invalid postcode',
+* radio:			'Please choose an option',
+* required:		'This information is required'
 
 
 Customise error messages either per initialisation:
