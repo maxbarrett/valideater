@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Valideater demo page</title>
@@ -23,12 +24,7 @@
 	<input type="text" placeholder="Username" data-valideater="alphanumeric">
 	<input type="email" placeholder="Email" data-valideater="required,email">
 	<input type="text" placeholder="Postcode" data-valideater="postcode">
-
-	<div data-valideater="dob" class="dob">
-		<input type="number" placeholder="DD" min="1" max="31">
-		<input type="number" placeholder="MM" min="1" max="12">
-		<input type="number" placeholder="YYYY" min="1900" max="2015">
-	</div>
+	<input type="text" placeholder="DD/MM/YYYY" data-valideater="dob,required">
 
 	<fieldset class="gender" data-valideater="radio">
 		<input type="radio" value="f" id="female" class="branded">

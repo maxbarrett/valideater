@@ -15,7 +15,6 @@ The list of validations and default error messages:
 * alpha:			'Value must be letters'
 * alphanumeric:	'Letters and numbers required'
 * dob:			'Please give a valid date of birth'
-* over18:			'You must be 18 or over'
 * email:			'Invalid email'
 * matches:		'These values do not match'
 * numeric:		'Value must be numeric'
@@ -62,6 +61,10 @@ $('form').valideater({
 Various `js-error` and `js-alert` css classes are added to the markup for styling, go nuts.
 
 
+###  Date of birth
+Requires text format: DD/MM/YYYY
+
+
 ### WIP:
 
 * Alphanumeric
@@ -69,12 +72,6 @@ Broken
 
 * Radio buttons
 The `data-valideater` attribute must be on a wrapping parent element, so as not to interfere with other unrelated radio buttons in the form.
-
-* Date of birth
-Needs work...
-
-* Over18
-Also needs TLC...
 
 * Postcode
 Containsspace improvement required

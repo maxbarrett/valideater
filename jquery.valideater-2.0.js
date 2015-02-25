@@ -1,5 +1,6 @@
 (function($) {
-
+	"use strict";
+	
 	$.fn.valideater = function(options) {
 
 		var thisForm = this;
@@ -14,11 +15,11 @@
 				'matches':		'These values do not match',
 				'min4':			'At least 4 characters please',
 				'numeric':		'Value must be numeric',
-				'over18':		'You must be 18 or over',
 				'postcode':		'Invalid postcode',
 				'radio':		'Please choose an option',
 				'required':		'This information is required',
-				'liveCheck':	true
+				'liveCheck':	true,
+				'minYear':		1900
 		};
 
 		var settings = $.extend({}, defaults, options);
@@ -77,30 +78,20 @@
 			},
 
 			dob: function(el) {
-				var dobs = el.children('input, select'),
+				var maxYear = (new Date()).getFullYear(),
+					re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/,
+					regs = el.val().match(re),
 					dobError = false;
 
-				for (var i = 0; i < dobs.length; i++) {
-					var dob = $(dobs[i]),
-						dobVal = dob.val();
+				// Invalid date format: el.val()
+				// Invalid value for day: regs[1]
+				// Invalid value for month: regs[2]
+				// Invalid value for year: regs[3] (must be between settings.minYear and maxYear)
 
-					if (dobVal === '' || isNaN(dobVal)) {
-						dobError = true;
-					} else {
-						if (i === dobs.length - 1) {
-							//Check if over 18
-							var today = new Date();
-							var birthDate = new Date($(dobs[2]).val(), $(dobs[1]).val() - 1, $(dobs[0]).val());
-							var age = today.getFullYear() - birthDate.getFullYear();
-							if (today.getMonth() - birthDate.getMonth() < 0 || (today.getMonth() - birthDate.getMonth() === 0 && today.getDate() < birthDate.getDate())) {
-								age--;
-							}
-							if (age > 100 || $(dobs[1]).val() - 1 > 12 || $(dobs[0]).val() > 31) {
-								dobError = true;
-							}
-						}
-					}
-				}
+				if	((!regs) ||
+					(regs[1] < 1 || regs[1] > 31) ||
+					(regs[2] < 1 || regs[2] > 12) ||
+					(regs[3] < settings.minYear || regs[3] > maxYear)) { dobError = true; }
 
 				return dobError;
 			},
@@ -126,31 +117,6 @@
 
 			numeric: function(el) {
 				return isNaN(el.val());
-			},
-
-			over18: function(el) {
-				var dobs = el.children('input, select'),
-					ageError = false;
-
-				for (var i = 0; i < dobs.length; i++) {
-					var dob = $(dobs[i]),
-						dobVal = dob.val();
-
-					if (i === dobs.length - 1) {
-						//Check if over 18
-						var today = new Date();
-						var birthDate = new Date($(dobs[2]).val(), $(dobs[1]).val() - 1, $(dobs[0]).val());
-						var age = today.getFullYear() - birthDate.getFullYear();
-						if (today.getMonth() - birthDate.getMonth() < 0 || (today.getMonth() - birthDate.getMonth() === 0 && today.getDate() < birthDate.getDate())) {
-							age--;
-						}
-						if (age < 18) {
-							ageError = true;
-						}
-					}
-				}
-
-				return ageError;
 			},
 
 			postcode: function(el) {
