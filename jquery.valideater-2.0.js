@@ -6,17 +6,19 @@
 		var thisForm = this;
 		// Default, overridable error messages
 		var defaults = {
-				'age':			'You are too young',
-				'alpha':		'Value must be letters',
-				'alphanumeric': 'Letters and numbers required',
-				'dob':			'Please give a valid date of birth',
-				'email':		'Invalid email',
-				'matches':		'These values do not match',
-				'min4':			'At least 4 characters please',
-				'numeric':		'Value must be numeric',
-				'postcode':		'Invalid postcode',
-				'radio':		'Please choose an option',
-				'required':		'This information is required',
+				'errorMessages': {
+					'minAge':		'You are too young',
+					'alpha':		'Value must be letters',
+					'alphanumeric': 'Letters and numbers required',
+					'dob':			'Please give a valid date of birth',
+					'email':		'Invalid email',
+					'matches':		'These values do not match',
+					'min4':			'At least 4 characters please',
+					'numeric':		'Value must be numeric',
+					'postcode':		'Invalid postcode',
+					'radio':		'Please choose an option',
+					'required':		'This information is required'
+				},
 				'liveCheck':	true,
 				'minYear':		1900,
 				'minAge':		null
@@ -68,18 +70,6 @@
 
 			//////////////////////////// START OF VALIDATIONS /////////////////////////////////////
 			// IF RETURN IS TRUE THEN THERE'S AN ERROR
-			age: function(el){
-				var hasDobAttr = el.data().valideater.split(',').indexOf('dob') !== -1;
-
-				if (methods.dob(el) === true && !hasDobAttr) { return true; }
-				if (methods.dob(el) === true) { return null; }
-				if (!isNaN(settings.minAge)) {
-					if (methods.formatAge(el) < settings.minAge) { return true; }
-				}
-				
-				return false;
-			},
-
 			alpha: function(el) {
 				return (/^[a-zA-Z]+$/.test(el.val()) === false || el.val() === '');
 			},
@@ -121,6 +111,17 @@
 			min4: function(el) {
 				var fieldValue = el.val();
 				return (fieldValue.length < 4 && fieldValue !== '');
+			},
+
+			minAge: function(el){
+				var hasDobAttr = el.data().valideater.split(',').indexOf('dob') !== -1;
+
+				if (methods.dob(el) === true && !hasDobAttr) { return true; }
+				if (methods.dob(el) === true) { return false; }
+				if (!isNaN(settings.minAge)) {
+					if (methods.formatAge(el) < settings.minAge) { return true; }
+				}
+				return false;
 			},
 
 			numeric: function(el) {
@@ -189,7 +190,7 @@
 
 				if (el.attr('data-alert') !== false) {
 					var customMsg = el.attr('data-error-msg-' + validor),
-						msg = (customMsg) ? customMsg : settings[validor];
+						msg = (customMsg) ? customMsg : settings.errorMessages[validor];
 
 					el.after('<span class="js-alert js-alert-' + validor + ' js-' + el.ref + '">' + msg + '</span>');
 				}
