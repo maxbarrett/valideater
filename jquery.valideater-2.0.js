@@ -81,17 +81,16 @@
 
 			dob: function(el) {
 				var maxYear = (new Date()).getFullYear(),
-					regs = methods.formatDate(el.val()),
-					dobError = false;
+					regs = methods.formatDate(el.val());
 
 				// Check date formats: el.val(), day: regs[1], month: regs[2] & year: regs[3] (must be between minYear and maxYear)
 				if	((!regs) ||
 					(regs[1] < 1 || regs[1] > 31) ||
 					(regs[2] < 1 || regs[2] > 12) ||
 					(regs[3] < settings.minYear || regs[3] > settings.maxYear)) {
-						dobError = true;
+						return true;
 				}
-				return dobError;
+				return false;
 			},
 
 			email: function(el) {
@@ -117,9 +116,12 @@
 				var hasDobAttr = el.data().valideater.split(',').indexOf('dob') !== -1;
 
 				if (methods.dob(el) === true && !hasDobAttr) { return true; }
-				if (methods.dob(el) === true) { return false; }
+				if (methods.dob(el) === true) { return null; }
 				if (!isNaN(settings.minAge)) {
-					if (methods.formatAge(el) < settings.minAge) { return true; }
+					if (methods.formatAge(el) < settings.minAge) {
+						settings.errorMessages.minAge = 'You must be over ' + settings.minAge;
+						return true;
+					}
 				}
 				return false;
 			},
