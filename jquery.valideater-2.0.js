@@ -4,10 +4,9 @@
 	$.fn.valideater = function(options) {
 
 		var thisForm = this;
-		thisForm.attr('novalidate', '');
-
 		// Default, overridable error messages
 		var defaults = {
+				'age':			'You are too young',
 				'alpha':		'Value must be letters',
 				'alphanumeric': 'Letters and numbers required',
 				'dob':			'Please give a valid date of birth',
@@ -19,10 +18,12 @@
 				'radio':		'Please choose an option',
 				'required':		'This information is required',
 				'liveCheck':	true,
-				'minYear':		1900
+				'minYear':		1900,
+				'minAge':		null
 		};
 
 		var settings = $.extend({}, defaults, options);
+		thisForm.attr('novalidate', '');
 
 		var methods = {
 
@@ -67,7 +68,18 @@
 
 			//////////////////////////// START OF VALIDATIONS /////////////////////////////////////
 			// IF RETURN IS TRUE THEN THERE'S AN ERROR
-			
+			age: function(el){
+				var hasDobAttr = el.data().valideater.split(',').indexOf('dob') !== -1;
+
+				if (methods.dob(el) === true && !hasDobAttr) { return true; }
+				if (methods.dob(el) === true) { return null; }
+				if (!isNaN(settings.minAge)) {
+					if (methods.formatAge(el) < settings.minAge) { return true; }
+				}
+				
+				return false;
+			},
+
 			alpha: function(el) {
 				return (/^[a-zA-Z]+$/.test(el.val()) === false || el.val() === '');
 			},
@@ -79,20 +91,16 @@
 
 			dob: function(el) {
 				var maxYear = (new Date()).getFullYear(),
-					re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/,
-					regs = el.val().match(re),
+					regs = methods.formatDate(el.val()),
 					dobError = false;
 
-				// Invalid date format: el.val()
-				// Invalid value for day: regs[1]
-				// Invalid value for month: regs[2]
-				// Invalid value for year: regs[3] (must be between settings.minYear and maxYear)
-
+				// Check date formats: el.val(), day: regs[1], month: regs[2] & year: regs[3] (must be between minYear and maxYear)
 				if	((!regs) ||
 					(regs[1] < 1 || regs[1] > 31) ||
 					(regs[2] < 1 || regs[2] > 12) ||
-					(regs[3] < settings.minYear || regs[3] > maxYear)) { dobError = true; }
-
+					(regs[3] < settings.minYear || regs[3] > settings.maxYear)) {
+						dobError = true;
+				}
 				return dobError;
 			},
 
@@ -144,11 +152,26 @@
 			},
 
 			required: function(el) {
-				var placeholder = $(el).attr('placeholder');
-				return (el.val() === '' || el.val() === placeholder);
+				return ((el.val() === '') || (el.val() === $(el).attr('placeholder')));
 			},
 
 			//////////////////////////// END OF VALIDATIONS /////////////////////////////////////
+
+			formatDate: function(date){
+				var re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/,
+					regs = date.match(re);
+				return regs;
+			},
+
+			formatAge: function(el){
+				var regs = methods.formatDate(el.val()),
+					birthday = new Date(regs[3] + '-' + regs[2] + '-' + regs[1]),
+					ageDifMs = Date.now() - birthday.getTime(),
+					ageDate = new Date(ageDifMs), // miliseconds from epoch
+					age = Math.abs(ageDate.getFullYear() - 1970);
+
+				return age;
+			},
 
 			addError: function(el, validor){
 				// create el obj prop with array of errors

@@ -186,7 +186,9 @@
 							var today = new Date();
 							var birthDate = new Date($(dobs[2]).val(), $(dobs[1]).val() - 1, $(dobs[0]).val());
 							var age = today.getFullYear() - birthDate.getFullYear();
-							if (today.getMonth() - birthDate.getMonth() < 0 || (today.getMonth() - birthDate.getMonth() === 0 && today.getDate() < birthDate.getDate())) {
+							if ((today.getMonth() - birthDate.getMonth() < 0) ||
+								(today.getMonth() - birthDate.getMonth() === 0) &&
+								(today.getDate() < birthDate.getDate()) ) {
 								age--;
 							}
 							if (age > 100 || $(dobs[1]).val() - 1 > 12 || $(dobs[0]).val() > 31) {

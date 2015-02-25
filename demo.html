@@ -24,7 +24,7 @@
 	<input type="text" placeholder="Username" data-valideater="alphanumeric">
 	<input type="email" placeholder="Email" data-valideater="required,email">
 	<input type="text" placeholder="Postcode" data-valideater="postcode">
-	<input type="text" placeholder="DD/MM/YYYY" data-valideater="dob,required">
+	<input type="text" placeholder="DD/MM/YYYY" data-valideater="age">
 
 	<fieldset class="gender" data-valideater="radio">
 		<input type="radio" value="f" id="female" class="branded">
@@ -43,7 +43,7 @@
 
 <script>
 	$('form').each(function () {
-		$(this).valideater();
+		$(this).valideater({minAge: 18});
 	});
 </script>
 
