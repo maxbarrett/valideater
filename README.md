@@ -33,7 +33,7 @@ Customisation
 
 Error messages can be customised as an attribute in the markup: `data-vldtr-[name]`. Eg:
 ```sh
-<input type="text" data-vldtr="required" data-vldtr-required="My unique error msg for the required validation check">
+<input type="text" data-vldtr="required" data-vldtr-required="My unique error msg">
 ```
 
 They can also be customised with JS at initialisation:
@@ -46,7 +46,7 @@ $('form.register').vldtr({
 });
 ```
 
-Forms with errors are re-validated on each keystroke by default, prevent this by setting `liveCheck` to `false` (the form will be re-validated on submit).
+Forms with errors are re-validated on each keystroke by default, prevent this by setting `liveCheck` to `false` (form will be re-validated on submit).
 
 ```sh
 $('form').vldtr({
@@ -61,21 +61,20 @@ CSS
 Various `js-error` and `js-alert` css classes are added to the markup for styling, go nuts.
 
 
-### Validations
+Validations
+-----------
 
-alpha
------
+### alpha
+
 `Value must be letters`
 
 
-alphanumeric
-------------
+### alphanumeric
 [todo: broken]
 `Letters and numbers required`
 
 
-dob (date of birth)
--------------------
+### dob (date of birth)
 Requires text format: DD/MM/YYYY
 
 A minimum age requirement can be added as an attribute on the input: `data-vldtr-ageover="21"` or at initialisation:
@@ -87,36 +86,34 @@ $('form').valideater({
 `Please give a valid date of birth`
 		
 
-characters4
------------
+### characters4
 `At least 4 characters please`
 
 
-email
------
+### email
 `Invalid email`
 
-matches
--------
+
+### matches
 [todo: explain]
 `These values do not match`
 
-numeric
--------
+
+### numeric
 `Value must be numeric`
 
-postcode
---------
+
+### postcode
 [todo: Containsspace improvement required]
 `Invalid postcode`
 
-radio
------
+
+### radio
 The `data-vldtr` attribute must be on a wrapping parent element, so as not to interfere with other unrelated radio buttons in the form.
 `Please choose an option`
 
-required
---------
+
+### required
 `This information is required`
 
 
