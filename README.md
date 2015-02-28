@@ -14,16 +14,18 @@ $('form').each(function () {
 
 Validations and default error messages:
 
-**alpha**:		'Value must be letters'
-**alphanumeric**:	'Letters and numbers required'
-**characters4**:	'At least 4 characters please'
-**dob**:			'Please give a valid date of birth'
-**email**:		'Invalid email'
-**matches**:		'These values do not match'
-**numeric**:		'Value must be numeric'
-**postcode**:		'Invalid postcode'
-**radio**:		'Please choose an option'
-**required**:		'This information is required'
+| Validation    | Error message                       |
+| ------------- |:-----------------------------------:|
+| alpha     	| Value must be letters               |
+| alphanumeric  | Letters and numbers required        |
+| characters4 	| At least 4 characters please        |
+| dob			| Please give a valid date of birth   |
+| Email 		| Invalid email                       |
+| matches 		| These values do not match           |
+| numeric 		| Value must be numeric               |
+| postcode 		| Invalid postcode                    |
+| radio 		| Please choose an option             |
+| required 		| This information is required        |
 
 
 To validate an element add a `data-vldtr` attribute with a comma separated list of validations as the value, eg: `<input type="text" data-vldtr="required,alpha,characters4">`
