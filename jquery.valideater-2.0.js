@@ -18,10 +18,12 @@
 					'radio':		'Please choose an option.',
 					'required':		'This information is required.'
 				},
-				'livecheck':	true,
-				'maxAge':		100,
-				'ageover':		null,
-				'alerts':		true
+				'livecheck':		true,
+				'maxAge':			100,
+				'ageover':			null,
+				'alerts':			true,
+				'errorCssClass':	'js-vldtr-error',
+				'alertCssClass':	'js-vldtr-alert'
 		};
 
 		var settings = $.extend({}, defaults, options);
@@ -36,6 +38,10 @@
 				return thisForm.on('submit', function() {
 					// Reset errors
 					methods.hasErrors = false;
+
+					// Assign a unique reference to each input
+					methods.assignRef();
+
 					// Run the checks
 					methods.validate();
 
@@ -54,12 +60,11 @@
 			livecheck: function(){
 				// 'change' is better for wrapped inputs & radio/checkboxes
 				$('[data-vldtr]', thisForm).on('change keyup', function() {
-					// Validating ALL inputs on one keystroke?
-					methods.validate();
+					methods.validate($(this));
 				});
 
 				// focus on the first error field
-				var firstError = $('.error:first'),
+				var firstError = $('.' + settings.errorCssClass + ':first'),
 					formInputs = 'input, select, textarea, button';
 
 				if ( firstError.is(formInputs) ) {
@@ -124,7 +129,7 @@
 			},
 
 			numeric: function(el) {
-				return isNaN(el.val());
+				return isNaN(window.parseInt(el.val()));
 			},
 
 			postcode: function(el) {
@@ -173,65 +178,86 @@
 				return age;
 			},
 
+			assignRef: function(){
+				$('[data-vldtr]', thisForm).each(function(num) {
+					this.ref = this.type + num;
+				});
+			},
+
 			addError: function(el, validor){
+				var reference = el[0].ref;
 				// create el obj prop with array of errors
-				methods.invalidElements[el.ref] = methods.invalidElements[el.ref] || [];
+				methods.invalidElements[reference] = methods.invalidElements[reference] || [];
 
 				// check validor is not already in the array
-				if ($.inArray(validor, methods.invalidElements[el.ref]) === -1) {
-					methods.invalidElements[el.ref].push(validor);
+				if ($.inArray(validor, methods.invalidElements[reference]) === -1) {
+					methods.invalidElements[reference].push(validor);
 					methods.showAlert(el, validor);
 				}
 			},
 
 			showAlert: function(el, validor){
-				el.addClass('js-vldtr-error');
+				el.addClass(settings.errorCssClass);
 
 				if (!el.attr('data-vldtr-alert')) {
 					var customMsg = el.attr('data-vldtr-err-' + validor),
-						msg = (customMsg) ? customMsg : settings.errorMessages[validor];
+						msg = (customMsg) ? customMsg : settings.errorMessages[validor],
+						alert = $('<span>' + msg + '</span>');
 
-					el.after('<span class="js-vldtr-alert js-vldtr-alert-' + validor + ' js-vldtr-' + el.ref + '">' + msg + '</span>');
+					alert.addClass(settings.alertCssClass);
+					alert.addClass(settings.alertCssClass + '-' + validor);
+					alert.addClass('js-vldtr-' + el[0].ref);
+
+					el.after(alert);
 				}
 			},
 
 			removeError: function(el, validor){
+				var reference = el[0].ref;
+
 				// remove element from error array
-				methods.invalidElements[el.ref] = $.grep(methods.invalidElements[el.ref], function(prop) {
+				methods.invalidElements[reference] = $.grep(methods.invalidElements[reference], function(prop) {
 					return prop !== validor;
 				});
 
-				$('.js-vldtr-alert-' + validor + '.js-vldtr-' + el.ref).remove();
+				$('.' + settings.alertCssClass + '-' + validor + '.js-vldtr-' + reference).remove();
 
-				if (methods.invalidElements[el.ref].length === 0){
-					el.removeClass('js-vldtr-error');
+				if (methods.invalidElements[reference].length === 0){
+					el.removeClass(settings.errorCssClass);
 				}
 			},
 
-			validate: function(){
-				// for each element that needs valideating
-				$('[data-vldtr]', thisForm).each(function(num) {
-					var el = $(this),
-						validorz = el.attr('data-vldtr').split(',');
+			runChecks: function(el){
+				var validorz = el.attr('data-vldtr').split(',');
 
-					// Give each element a unique ref
-					el.ref = el[0].type + num;
-
-					for (var i = 0; i < validorz.length; i++) {
-						if (methods[validorz[i]]) {
-							if (methods[validorz[i]](el) === true){
-								methods.addError(el, validorz[i]);
-							} else if ($.inArray(validorz[i], methods.invalidElements[el.ref]) !== -1){
-								methods.removeError(el, validorz[i]);
-							}
+				for (var i = 0; i < validorz.length; i++) {
+					if (methods[validorz[i]]) {
+						if (methods[validorz[i]](el) === true){
+							methods.addError(el, validorz[i]);
+						} else if ($.inArray(validorz[i], methods.invalidElements[el[0].ref]) !== -1){
+							methods.removeError(el, validorz[i]);
 						}
 					}
-				});
+				}
+			},
 
-				var containsErrors = [];
-				for ( var foo in methods.invalidElements) {
-					for (var j = 0; j < methods.invalidElements[foo].length; j++ ) {
-						containsErrors.push(methods.invalidElements[foo][j]);
+			validate: function(el){
+				// if we're not doing a livecheck...
+				if (!el) {
+					$('[data-vldtr]', thisForm).each(function(){
+						methods.runChecks($(this));
+					});
+				} else {
+					methods.runChecks(el);
+				}
+
+				var containsErrors = [],
+					badEggs,
+					i;
+				
+				for (badEggs in methods.invalidElements) {
+					for (i = 0; i < methods.invalidElements[badEggs].length; i++ ) {
+						containsErrors.push(methods.invalidElements[badEggs][i]);
 					}
 				}
 

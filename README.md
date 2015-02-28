@@ -46,7 +46,7 @@ $('form.register').vldtr({
 });
 ```
 
-Forms with errors are re-validated on each keystroke by default, prevent this by setting `liveCheck` to `false` (form will be re-validated on submit).
+Forms with errors are re-validated on each keystroke by default, prevent this by setting `livecheck` to `false` (form will be re-validated on submit).
 
 ```sh
 $('form').vldtr({
@@ -55,14 +55,21 @@ $('form').vldtr({
 ```
 
 To suppress error messages for an element add `data-vldtr-alert` as an attribute, CSS classes will still be added.
-If you'd like to turn error messages off for all elements, pass `alerts: false` at initialisation.
+If you'd like to turn error messages off for all elements, pass in `alerts: false` at initialisation.
 
 
 
 CSS
 ---
 
-Various `js-vldtr-error` and `js-vldtr-alert` CSS classes are added to the markup for styling, go nuts.
+Various `js-vldtr-error` and `js-vldtr-alert` CSS classes are added to the markup for styling, go nuts. These can be overriden with JS at initialisation:
+```sh
+$('form').vldtr({
+	errorCssClass: 'js-cutomErrorClass',
+	alertCssClass: 'js-cutomAlertClass'
+});
+```
+
 
 
 Validations
