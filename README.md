@@ -31,9 +31,9 @@ To validate an element add a `data-vldtr` attribute with a comma separated list 
 Customisation
 -------------
 
-Error messages can be customised as an attribute in the markup: `data-vldtr-[name]`. Eg:
+Error messages can be customised as an attribute in the markup: `data-vldtr-err-[name]`. Eg:
 ```sh
-<input type="text" data-vldtr="required" data-vldtr-required="My unique error msg">
+<input type="text" data-vldtr="required" data-vldtr-err-required="My unique error msg">
 ```
 
 They can also be customised with JS at initialisation:
@@ -99,7 +99,12 @@ Default error message: `Invalid email`
 
 
 ### matches
-[todo: explain]
+Requires a `data-vldtr-matches` attribute with the value of the ID of the element to match. Eg:
+```sh
+<input type="email" placeholder="Email" id="toMatch" data-vldtr="email">
+<input type="email" placeholder="Confirm email" data-vldtr="matches" data-vldtr-matches="toMatch">
+```
+
 Default error message: `These values do not match`
 
 
@@ -113,7 +118,7 @@ Default error message: `Invalid postcode`
 
 
 ### radio
-The `data-vldtr` attribute must be on a wrapping parent element (eg: <fieldset>), so as not to interfere with other unrelated radio buttons in the form.
+The `data-vldtr` attribute must be on a wrapping parent element (eg: `<fieldset>`), so as not to interfere with other unrelated radio buttons in the form.
 Default error message: `Please choose an option`
 
 

@@ -21,13 +21,17 @@
 <body>
 
 <form action="http://dictionary.reference.com/browse/success">
+
 	<input type="text" placeholder="First name" data-vldtr="alpha">
 	<input type="text" placeholder="Last name (supress alert)" data-vldtr="alpha" data-vldtr-alert="false">
-	<input type="text" placeholder="Company" data-vldtr="required" data-vldtr-alpha="Unique attribute error message">
+	<input type="text" placeholder="Company" data-vldtr="required" data-vldtr-err-alpha="Unique attribute error message">
 	<input type="text" placeholder="Username" data-vldtr="alphanumeric">
 	<input type="text" placeholder="DD/MM/YYYY" data-vldtr="dob" data-vldtr-ageover="21">
 	<input type="text" placeholder="Password" data-vldtr="characters4,required">
-	<input type="email" placeholder="Email" data-vldtr="required,email">
+
+	<input type="email" placeholder="Email" id="toMatch" data-vldtr="required,email">
+	<input type="email" placeholder="Confirm email" data-vldtr-matches="toMatch">
+
 	<input type="number" placeholder="Phone number" data-vldtr="numeric,required">
 	<input type="text" placeholder="Postcode" data-vldtr="postcode">
 	<fieldset class="gender" data-vldtr="radio">
@@ -36,9 +40,9 @@
 		<input type="radio" value="m" id="male">
 		<label for="male">Male</label>
 	</fieldset>
-	<input type="email" placeholder="Reasons for applying" data-vldtr="required">
 
 	<input type="submit" value="Submit">
+
 </form>
 
 <!--

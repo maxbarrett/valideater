@@ -188,7 +188,7 @@
 				el.addClass('js-vldtr-error');
 
 				if (!el.attr('data-vldtr-alert')) {
-					var customMsg = el.attr('data-vldtr-' + validor),
+					var customMsg = el.attr('data-vldtr-err-' + validor),
 						msg = (customMsg) ? customMsg : settings.errorMessages[validor];
 
 					el.after('<span class="js-vldtr-alert js-vldtr-alert-' + validor + ' js-vldtr-' + el.ref + '">' + msg + '</span>');
