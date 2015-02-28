@@ -14,16 +14,16 @@ $('form').each(function () {
 
 Validations and default error messages:
 
-* alpha:		'Value must be letters'
-* alphanumeric:	'Letters and numbers required'
-* characters4:	'At least 4 characters please'
-* dob:			'Please give a valid date of birth'
-* email:		'Invalid email'
-* matches:		'These values do not match'
-* numeric:		'Value must be numeric'
-* postcode:		'Invalid postcode'
-* radio:		'Please choose an option'
-* required:		'This information is required'
+**alpha**:		'Value must be letters'
+**alphanumeric**:	'Letters and numbers required'
+**characters4**:	'At least 4 characters please'
+**dob**:			'Please give a valid date of birth'
+**email**:		'Invalid email'
+**matches**:		'These values do not match'
+**numeric**:		'Value must be numeric'
+**postcode**:		'Invalid postcode'
+**radio**:		'Please choose an option'
+**required**:		'This information is required'
 
 
 To validate an element add a `data-vldtr` attribute with a comma separated list of validations as the value, eg: `<input type="text" data-vldtr="required,alpha,characters4">`
@@ -31,7 +31,7 @@ To validate an element add a `data-vldtr` attribute with a comma separated list 
 Customisation
 -------------
 
-Error messages can be customised by adding a `data-vldtr-err-[name]` attribute in the markup:  Eg:
+Error messages can be customised by adding a `data-vldtr-err-[name]` attribute in the markup eg:
 ```sh
 <input type="text" data-vldtr="required" data-vldtr-err-required="My unique error msg">
 ```
@@ -48,7 +48,12 @@ $('form.myClass').vldtr({
 
 Forms with errors are re-validated on each keystroke by default, prevent this with `livecheck: false` (form will be re-validated on submit).
 
-To suppress error messages for an element add `data-vldtr-alert` as an attribute, CSS classes will still be added.
+To suppress error messages for an element add `data-vldtr-alert="false"` as an attribute (although CSS classes will still be added):
+```sh
+<input type="text" data-vldtr="required" data-vldtr-alert="false">
+
+```
+
 To change these CSS classes you can configure `errorCssClass` and `alertCssClass`:
 ```sh
 $('form.myClass').vldtr({
