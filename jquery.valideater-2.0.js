@@ -2,31 +2,28 @@
 	"use strict";
 	
 	$.fn.vldtr = function(options) {
+		var thisForm = this,
+			defaults = {
+				'alpha':		'Value must be letters.',
+				'alphanumeric': 'Letters and numbers required.',
+				'characters4':	'At least 4 characters please.',
+				'dob':			'Please give a valid date of birth.',
+				'email':		'Invalid email.',
+				'matches':		'These values do not match.',
+				'numeric':		'Value must be numeric.',
+				'postcode':		'Invalid postcode.',
+				'radio':		'Please choose an option.',
+				'required':		'This information is required.',
 
-		var thisForm = this;
-		// Default, overridable error messages
-		var defaults = {
-				'errorMessages': {
-					'alpha':		'Value must be letters.',
-					'alphanumeric': 'Letters and numbers required.',
-					'characters4':	'At least 4 characters please.',
-					'dob':			'Please give a valid date of birth.',
-					'email':		'Invalid email.',
-					'matches':		'These values do not match.',
-					'numeric':		'Value must be numeric.',
-					'postcode':		'Invalid postcode.',
-					'radio':		'Please choose an option.',
-					'required':		'This information is required.'
-				},
 				'livecheck':		true,
-				'maxAge':			100,
-				'ageover':			null,
+				'maxage':			122,
+				'minage':			18,
 				'alerts':			true,
 				'errorCssClass':	'js-vldtr-error',
 				'alertCssClass':	'js-vldtr-alert'
-		};
+		},
+			settings = $.extend({}, defaults, options);
 
-		var settings = $.extend({}, defaults, options);
 		thisForm.attr('novalidate', '');
 
 		var methods = {
@@ -36,18 +33,12 @@
 
 			init: function() {
 				return thisForm.on('submit', function() {
-					// Reset errors
-					methods.hasErrors = false;
-
-					// Assign a unique reference to each input
-					methods.assignRef();
-
-					// Run the checks
-					methods.validate();
+					methods.hasErrors = false; // Reset errors
+					methods.assignRef(); // Assign a unique reference to each input
+					methods.validate(); // Run the checks
 
 					if (methods.hasErrors === false) {
-						// Submit the form
-						return true;
+						return true; // Submit the form
 					} else if (settings.livecheck === true) {
 						methods.livecheck();
 						return false;
@@ -92,7 +83,9 @@
 
 			dob: function(el) {
 				var today = (new Date()).getFullYear(),
-					regs = methods.formatDate(el.val());
+					regs = methods.formatDate(el.val()),
+					minage = el.data().vldtrMinage || settings.minage,
+					maxage = el.data().vldtrMaxage || settings.maxage;
 
 				// Check date formats: el.val(), day: regs[1], month: regs[2] & year: regs[3] (must be between minYear and maxYear)
 				if	((!regs) ||
@@ -102,13 +95,14 @@
 						return true;
 				}
 
-				var ageOver = el.data().vldtrAgeover || settings.ageover;
+				var age = methods.formatAge(el);
 
-				if (ageOver && !isNaN(ageOver)) {
-					if (methods.formatAge(el) < ageOver) {
-						settings.errorMessages.dob = 'You must be over ' + ageOver;
-						return true;
-					}
+				if (age > maxage) {
+					settings.dob = 'You cannot be older than ' + maxage + ' years old.';
+					return true;
+				} else if (age < minage) {
+					settings.dob = 'You must be older than ' + minage + ' years old.';
+					return true;
 				}
 
 				return false;
@@ -119,12 +113,9 @@
 				return (reg.test(el.val()) === false);
 			},
 
-			// The matches input should come after the one with the id
-			// The matches input shouldn't need any other validation (the matcher should have those)
 			matches: function(el) {
 				var matchesId = el.attr('data-vldtr-matches'),
 					matchesValue = $('#' + matchesId).val();
-
 				return (el.val() !== matchesValue);
 			},
 
@@ -133,27 +124,14 @@
 			},
 
 			postcode: function(el) {
-				var fieldValue = el.val(),
-					reg = /(((([A-PR-UWYZ][0-9][0-9A-HJKS-UW]?)|([A-PR-UWYZ][A-HK-Y][0-9][0-9ABEHMNPRV-Y]?))\s{0,2}[0-9]([ABD-HJLNP-UW-Z]{2}))|(GIR\s{0,2}0AA))/i,
-					// must be a better way of doing this?
-					containsspace = fieldValue.indexOf(' ') >= 0,
-					length = 0;
-
-				if (containsspace) {
-					length = 8;
-				} else {
-					length = 7;
-				}
-				
-				return (reg.test(fieldValue) === false || fieldValue.length > length);
+				var strippedVal = el.val().replace(/\s+/g, ''),
+					reg = /(((([A-PR-UWYZ][0-9][0-9A-HJKS-UW]?)|([A-PR-UWYZ][A-HK-Y][0-9][0-9ABEHMNPRV-Y]?))\s{0,2}[0-9]([ABD-HJLNP-UW-Z]{2}))|(GIR\s{0,2}0AA))/i;
+				return (reg.test(strippedVal) === false);
 			},
 
 			radio: function(el) {
-				// radios are wrapped in a div, so find the kids
-				var checked = function(){ return this.checked; },
-					radios = $('input[type=radio]', el);
-
-				return radios.filter(checked).length ? false : true;
+				var radios = $('input[type=radio]', el); // radios are wrapped in a container
+				return radios.filter(function(){ return this.checked; }).length ? false : true;
 			},
 
 			required: function(el) {
@@ -163,19 +141,16 @@
 			//////////////////////////// END OF VALIDATIONS /////////////////////////////////////
 
 			formatDate: function(date){
-				var re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/,
-					regs = date.match(re);
-				return regs;
+				var re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+				return date.match(re); // Array of regex matches eg: ["03", "07", "1984"]
 			},
 
 			formatAge: function(el){
 				var regs = methods.formatDate(el.val()),
 					birthday = new Date(regs[3] + '-' + regs[2] + '-' + regs[1]),
 					ageDifMs = Date.now() - birthday.getTime(),
-					ageDate = new Date(ageDifMs), // miliseconds from epoch
-					age = Math.abs(ageDate.getFullYear() - 1970);
-
-				return age;
+					ageDate = new Date(ageDifMs); // miliseconds from epoch
+				return Math.abs(ageDate.getFullYear() - 1970); // age in years
 			},
 
 			assignRef: function(){
@@ -184,43 +159,43 @@
 				});
 			},
 
-			addError: function(el, validor){
+			addError: function(el, validator){
 				var reference = el[0].ref;
-				// create el obj prop with array of errors
+				// create an obj prop with array of errors
 				methods.invalidElements[reference] = methods.invalidElements[reference] || [];
 
-				// check validor is not already in the array
-				if ($.inArray(validor, methods.invalidElements[reference]) === -1) {
-					methods.invalidElements[reference].push(validor);
-					methods.showAlert(el, validor);
+				// check validator is not already in the array
+				if ($.inArray(validator, methods.invalidElements[reference]) === -1) {
+					methods.invalidElements[reference].push(validator);
+					methods.showAlert(el, validator);
 				}
 			},
 
-			showAlert: function(el, validor){
+			showAlert: function(el, validator){
 				el.addClass(settings.errorCssClass);
 
 				if (!el.attr('data-vldtr-alert')) {
-					var customMsg = el.attr('data-vldtr-err-' + validor),
-						msg = (customMsg) ? customMsg : settings.errorMessages[validor],
+					var customMsg = el.attr('data-vldtr-err-' + validator),
+						msg = (customMsg) ? customMsg : settings[validator],
 						alert = $('<span>' + msg + '</span>');
 
-					alert.addClass(settings.alertCssClass);
-					alert.addClass(settings.alertCssClass + '-' + validor);
-					alert.addClass('js-vldtr-' + el[0].ref);
+					alert.addClass(settings.alertCssClass)
+						.addClass(settings.alertCssClass + '-' + validator)
+						.addClass('js-vldtr-' + el[0].ref);
 
 					el.after(alert);
 				}
 			},
 
-			removeError: function(el, validor){
+			removeError: function(el, validator){
 				var reference = el[0].ref;
 
-				// remove element from error array
+				// remove the element from error array
 				methods.invalidElements[reference] = $.grep(methods.invalidElements[reference], function(prop) {
-					return prop !== validor;
+					return prop !== validator;
 				});
 
-				$('.' + settings.alertCssClass + '-' + validor + '.js-vldtr-' + reference).remove();
+				$('.' + settings.alertCssClass + '-' + validator + '.js-vldtr-' + reference).remove();
 
 				if (methods.invalidElements[reference].length === 0){
 					el.removeClass(settings.errorCssClass);
@@ -228,22 +203,24 @@
 			},
 
 			runChecks: function(el){
-				var validorz = el.attr('data-vldtr').split(',');
+				var validations = el.attr('data-vldtr').split(','),
+					validator;
 
-				for (var i = 0; i < validorz.length; i++) {
-					if (methods[validorz[i]]) {
-						if (methods[validorz[i]](el) === true){
-							methods.addError(el, validorz[i]);
-						} else if ($.inArray(validorz[i], methods.invalidElements[el[0].ref]) !== -1){
-							methods.removeError(el, validorz[i]);
+				for (var i = 0; i < validations.length; i++) {
+					validator = validations[i];
+
+					if (methods[validator]) {
+						if (methods[validator](el) === true){
+							methods.addError(el, validator);
+						} else if ($.inArray(validator, methods.invalidElements[el[0].ref]) !== -1){
+							methods.removeError(el, validator);
 						}
 					}
 				}
 			},
 
 			validate: function(el){
-				// if we're not doing a livecheck...
-				if (!el) {
+				if (!el) { // if we're not doing a livecheck...
 					$('[data-vldtr]', thisForm).each(function(){
 						methods.runChecks($(this));
 					});
@@ -251,13 +228,10 @@
 					methods.runChecks(el);
 				}
 
-				var containsErrors = [],
-					badEggs,
-					i;
-				
-				for (badEggs in methods.invalidElements) {
-					for (i = 0; i < methods.invalidElements[badEggs].length; i++ ) {
-						containsErrors.push(methods.invalidElements[badEggs][i]);
+				var containsErrors = [], failedElems;
+				for (failedElems in methods.invalidElements) {
+					for (var i = 0; i < methods.invalidElements[failedElems].length; i++ ) {
+						containsErrors.push(methods.invalidElements[failedElems][i]);
 					}
 				}
 

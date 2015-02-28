@@ -31,31 +31,34 @@ To validate an element add a `data-vldtr` attribute with a comma separated list 
 Customisation
 -------------
 
-Error messages can be customised as an attribute in the markup: `data-vldtr-err-[name]`. Eg:
+Error messages can be customised by adding a `data-vldtr-err-[name]` attribute in the markup:  Eg:
 ```sh
 <input type="text" data-vldtr="required" data-vldtr-err-required="My unique error msg">
 ```
 
-They can also be customised with JS at initialisation:
+Or they can be customised with JS at initialisation:
 
 ```sh
-$('form.register').vldtr({
-	alpha:			'Custom error message',
-	alphanumeric:	'Say what you like',
-	dob:			'For any specific form'
+$('form.myClass').vldtr({
+	alpha:			'Letters only please',
+	alphanumeric:	'You must use numbers and letters',
+	dob:			'When were you born?'
 });
 ```
 
-Forms with errors are re-validated on each keystroke by default, prevent this by setting `livecheck` to `false` (form will be re-validated on submit).
-
-```sh
-$('form').vldtr({
-	livecheck: false
-});
-```
+Forms with errors are re-validated on each keystroke by default, prevent this with `livecheck: false` (form will be re-validated on submit).
 
 To suppress error messages for an element add `data-vldtr-alert` as an attribute, CSS classes will still be added.
-If you'd like to turn error messages off for all elements, pass in `alerts: false` at initialisation.
+To change these CSS classes you can configure `errorCssClass` and `alertCssClass`:
+```sh
+$('form.myClass').vldtr({
+	errorCssClass:	'js-custom',
+	alertCssClass:	'js-custom'
+});
+```
+
+
+If you'd like to turn error messages off for all elements, pass in `alerts: false`.
 
 
 
@@ -71,12 +74,10 @@ $('form').vldtr({
 ```
 
 
-
 Validations
 -----------
 
 ### alpha
-
 Default error message: `Value must be letters`
 
 
@@ -92,13 +93,18 @@ Default error message: `Letters and numbers required`
 ### dob (date of birth)
 Requires text format: DD/MM/YYYY
 
-A minimum age requirement can be added as an attribute on the input: `data-vldtr-ageover="21"` or at initialisation:
+The default minimum and maximum age requirements are 18 and 122 years old.
+These can be overriden as attributes on the input: `data-vldtr-minage="21"` and `data-vldtr-maxage="100"`.
+
+Or using JS at initialisation:
 ```sh
 $('form').valideater({
-	ageover: 18
+	minage: 16
+	maxage: 65
 });
 ```
-`Please give a valid date of birth`
+
+Default error message: `Please give a valid date of birth`
 
 
 ### email
@@ -111,6 +117,8 @@ Requires a `data-vldtr-matches` attribute with the value of the ID of the elemen
 <input type="email" placeholder="Email" id="toMatch" data-vldtr="email">
 <input type="email" placeholder="Confirm email" data-vldtr="matches" data-vldtr-matches="toMatch">
 ```
+The confirmation element should come after element to match
+The confirmation element shouldn't need any other validation - the matcher should have those
 
 Default error message: `These values do not match`
 
@@ -120,7 +128,7 @@ Default error message: `Value must be numeric`
 
 
 ### postcode
-[todo: Containsspace improvement required]
+Must be a UK postcode
 Default error message: `Invalid postcode`
 
 

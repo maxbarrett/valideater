@@ -20,13 +20,13 @@
 </head>
 <body>
 
-<form action="http://dictionary.reference.com/browse/success">
+<form action="http://dictionary.reference.com/browse/success" id="demo">
 
 	<input type="text" placeholder="First name" data-vldtr="alpha">
 	<input type="text" placeholder="Last name (supress alert)" data-vldtr="alpha" data-vldtr-alert="false">
 	<input type="text" placeholder="Company" data-vldtr="required" data-vldtr-err-alpha="Unique attribute error message">
 	<input type="text" placeholder="Username" data-vldtr="alphanumeric">
-	<input type="text" placeholder="DD/MM/YYYY" data-vldtr="dob" data-vldtr-ageover="21">
+	<input type="text" placeholder="DD/MM/YYYY" data-vldtr="dob" data-vldtr-minage="21">
 	<input type="text" placeholder="Password" data-vldtr="characters4,required">
 
 	<input type="email" placeholder="Email" id="toMatch" data-vldtr="required,email">
@@ -63,9 +63,7 @@
 <script src="jquery.valideater-2.0.js"></script>
 
 <script>
-	$('form').each(function () {
-		$(this).vldtr({ageover: 18});
-	});
+	$('form#demo').vldtr();
 </script>
 
 </body>
