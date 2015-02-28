@@ -89,6 +89,8 @@ Validations
 -----------
 
 ### alpha
+Can only contain alphabetic letters. No numbers, spaces or special characters.
+
 Default error message: `Value must be letters`
 
 
@@ -99,11 +101,13 @@ Default error message: `Letters and numbers required`
 
 
 ### characters4
+Must have a minimum of 4 characters. Can include letters, numbers, spaces and special characters.
+
 Default error message: `At least 4 characters please`
 
 
 ### dob (date of birth)
-Requires text format: DD/MM/YYYY
+Requires date format: DD/MM/YYYY
 
 The default minimum and maximum age requirements are 18 and 122 years old.
 
@@ -119,21 +123,29 @@ Default error message: `Please give a valid date of birth`
 
 
 ### email
+Must be a valid email address.
+
 Default error message: `Invalid email`
 
 
 ### matches
-Requires a `data-vldtr-matches` attribute with the value of the ID of the element to match. Eg:
+Field value must match that of another.
+
+Requires attribute `data-vldtr-matches` value to be ID of the element to match, eg:
+
 ```sh
 <input type="email" placeholder="Email" id="toMatch" data-vldtr="email">
 <input type="email" placeholder="Confirm email" data-vldtr="matches" data-vldtr-matches="toMatch">
 ```
+
 The confirmation element should come after element to match. The confirmation element shouldn't need any other validation - the matcher should have those.
 
 Default error message: `These values do not match`
 
 
 ### numeric
+Value must only have numbers. Can include spaces.
+
 Default error message: `Value must be numeric`
 
 
@@ -150,6 +162,8 @@ Default error message: `Please choose an option`
 
 
 ### required
+Value must not be empty.
+
 Default error message: `This information is required`
 
 
