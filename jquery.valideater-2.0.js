@@ -72,7 +72,8 @@
 			},
 
 			alphanumeric: function(el) {
-				var reg = /^[a-zA-Z\d]+$/;
+				// var reg = /^[a-zA-Z\d]+$/; // letters or numbers
+				var reg = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/; // a letter and a number
 				return (reg.test(el.val()) === false);
 			},
 

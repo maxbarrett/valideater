@@ -3,7 +3,10 @@
 A jQuery/Zepto form validation plugin using HTML data attributes.
 
 
-To initialise a specific form: `$('form.cssSelector').vldtr();`
+To initialise a specific form: 
+```sh
+$('form.cssSelector').vldtr();
+```
 
 To initialise each form on a page:
 ```sh
@@ -49,18 +52,10 @@ $('form.myClass').vldtr({
 });
 ```
 
-To suppress error messages for an element add `data-vldtr-alert="false"` as an attribute – CSS classes will still be added:
+To suppress alert messages for an element add `data-vldtr-alert="false"` as an attribute (CSS classes will still be added):
 ```sh
 <input type="text" data-vldtr="required" data-vldtr-alert="false">
 
-```
-
-To change these CSS classes you can configure `errorCssClass` and `alertCssClass`:
-```sh
-$('form.myClass').vldtr({
-	errorCssClass:	'js-custom',
-	alertCssClass:	'js-custom'
-});
 ```
 
 If you'd like to turn error messages off for all elements, pass in:
@@ -98,7 +93,8 @@ Default error message: `Value must be letters`
 
 
 ### alphanumeric
-[todo: broken]
+Must contain at least one number and one letter. No spaces or special characters.
+
 Default error message: `Letters and numbers required`
 
 
