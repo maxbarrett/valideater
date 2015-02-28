@@ -19,14 +19,14 @@
 <body>
 
 <form action="http://www.success.com/">
-	<input type="text" placeholder="Name" data-valideater="required">
-	<input type="text" placeholder="Company" data-valideater="alpha" data-error-msg-alpha="My unique alpha attribute error msg">
-	<input type="text" placeholder="Username" data-valideater="alphanumeric">
-	<input type="email" placeholder="Email" data-valideater="required,email">
-	<input type="text" placeholder="Postcode" data-valideater="postcode">
-	<input type="text" placeholder="DD/MM/YYYY" data-valideater="dob,minAge">
+	<input type="text" placeholder="Name" data-vldtr="required">
+	<input type="text" placeholder="Company" data-vldtr="alpha" data-vldtr-alpha="My unique alpha attribute error msg">
+	<input type="text" placeholder="Username" data-vldtr="alphanumeric">
+	<input type="email" placeholder="Email" data-vldtr="required,email">
+	<input type="text" placeholder="Postcode" data-vldtr="postcode">
+	<input type="text" placeholder="DD/MM/YYYY" data-vldtr="dob" data-vldtr-ageover="21">
 
-	<fieldset class="gender" data-valideater="radio">
+	<fieldset class="gender" data-vldtr="radio">
 		<input type="radio" value="f" id="female" class="branded">
 		<label for="female">Female</label>
 		<br>
@@ -43,7 +43,7 @@
 
 <script>
 	$('form').each(function () {
-		$(this).valideater({minAge: 18});
+		$(this).vldtr({ageover: 18});
 	});
 </script>
 

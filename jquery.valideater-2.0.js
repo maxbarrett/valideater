@@ -1,27 +1,26 @@
 (function($) {
 	"use strict";
 	
-	$.fn.valideater = function(options) {
+	$.fn.vldtr = function(options) {
 
 		var thisForm = this;
 		// Default, overridable error messages
 		var defaults = {
 				'errorMessages': {
-					'minAge':		'You are too young',
 					'alpha':		'Value must be letters',
 					'alphanumeric': 'Letters and numbers required',
+					'characters4':	'At least 4 characters please',
 					'dob':			'Please give a valid date of birth',
 					'email':		'Invalid email',
 					'matches':		'These values do not match',
-					'min4':			'At least 4 characters please',
 					'numeric':		'Value must be numeric',
 					'postcode':		'Invalid postcode',
 					'radio':		'Please choose an option',
 					'required':		'This information is required'
 				},
-				'liveCheck':	true,
-				'minYear':		1900,
-				'minAge':		null
+				'livecheck':	true,
+				'maxAge':		100,
+				'ageover':		null
 		};
 
 		var settings = $.extend({}, defaults, options);
@@ -42,8 +41,8 @@
 					if (methods.hasErrors === false) {
 						// Submit the form
 						return true;
-					} else if (settings.liveCheck === true) {
-						methods.liveCheck();
+					} else if (settings.livecheck === true) {
+						methods.livecheck();
 						return false;
 					} else {
 						return false;
@@ -51,9 +50,10 @@
 				});
 			},
 
-			liveCheck: function(){
+			livecheck: function(){
 				// 'change' is better for wrapped inputs & radio/checkboxes
-				$('[data-valideater]', thisForm).on('change keyup', function() {
+				$('[data-vldtr]', thisForm).on('change keyup', function() {
+					// Validating ALL inputs on one keystroke?
 					methods.validate();
 				});
 
@@ -79,17 +79,32 @@
 				return (reg.test(el.val()) === false);
 			},
 
+			characters4: function(el) {
+				var fieldValue = el.val();
+				return (fieldValue.length < 4 && fieldValue !== '');
+			},
+
 			dob: function(el) {
-				var maxYear = (new Date()).getFullYear(),
+				var today = (new Date()).getFullYear(),
 					regs = methods.formatDate(el.val());
 
 				// Check date formats: el.val(), day: regs[1], month: regs[2] & year: regs[3] (must be between minYear and maxYear)
 				if	((!regs) ||
 					(regs[1] < 1 || regs[1] > 31) ||
 					(regs[2] < 1 || regs[2] > 12) ||
-					(regs[3] < settings.minYear || regs[3] > settings.maxYear)) {
+					(regs[3] > today)) {
 						return true;
 				}
+
+				var ageOver = el.data().vldtrAgeover || settings.ageover;
+
+				if (ageOver && !isNaN(ageOver)) {
+					if (methods.formatAge(el) < ageOver) {
+						settings.errorMessages.dob = 'You must be over ' + ageOver;
+						return true;
+					}
+				}
+
 				return false;
 			},
 
@@ -101,29 +116,10 @@
 			// The matches input should come after the one with the id
 			// The matches input shouldn't need any other validation (the matcher should have those)
 			matches: function(el) {
-				var matchesId = el.attr('data-valideater-matches'),
+				var matchesId = el.attr('data-vldtr-matches'),
 					matchesValue = $('#' + matchesId).val();
 
 				return (el.val() !== matchesValue);
-			},
-
-			min4: function(el) {
-				var fieldValue = el.val();
-				return (fieldValue.length < 4 && fieldValue !== '');
-			},
-
-			minAge: function(el){
-				var hasDobAttr = el.data().valideater.split(',').indexOf('dob') !== -1;
-
-				if (methods.dob(el) === true && !hasDobAttr) { return true; }
-				if (methods.dob(el) === true) { return null; }
-				if (!isNaN(settings.minAge)) {
-					if (methods.formatAge(el) < settings.minAge) {
-						settings.errorMessages.minAge = 'You must be over ' + settings.minAge;
-						return true;
-					}
-				}
-				return false;
 			},
 
 			numeric: function(el) {
@@ -191,7 +187,7 @@
 				el.addClass('js-error');
 
 				if (el.attr('data-alert') !== false) {
-					var customMsg = el.attr('data-error-msg-' + validor),
+					var customMsg = el.attr('data-vldtr-' + validor),
 						msg = (customMsg) ? customMsg : settings.errorMessages[validor];
 
 					el.after('<span class="js-alert js-alert-' + validor + ' js-' + el.ref + '">' + msg + '</span>');
@@ -213,9 +209,9 @@
 
 			validate: function(){
 				// for each element that needs valideating
-				$('[data-valideater]', thisForm).each(function(num) {
+				$('[data-vldtr]', thisForm).each(function(num) {
 					var el = $(this),
-						validorz = el.attr('data-valideater').split(',');
+						validorz = el.attr('data-vldtr').split(',');
 
 					// Give each element a unique ref
 					el.ref = el[0].type + num;
