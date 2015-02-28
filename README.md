@@ -16,8 +16,8 @@ Validations and default error messages:
 
 * alpha:		'Value must be letters'
 * alphanumeric:	'Letters and numbers required'
-* dob:			'Please give a valid date of birth'
 * characters4:	'At least 4 characters please'
+* dob:			'Please give a valid date of birth'
 * email:		'Invalid email'
 * matches:		'These values do not match'
 * numeric:		'Value must be numeric'
@@ -54,11 +54,15 @@ $('form').vldtr({
 });
 ```
 
+To suppress error messages for an element add `data-vldtr-alert` as an attribute, CSS classes will still be added.
+If you'd like to turn error messages off for all elements, pass `alerts: false` at initialisation.
+
+
 
 CSS
 ---
 
-Various `js-error` and `js-alert` css classes are added to the markup for styling, go nuts.
+Various `js-vldtr-error` and `js-vldtr-alert` CSS classes are added to the markup for styling, go nuts.
 
 
 Validations
@@ -66,12 +70,16 @@ Validations
 
 ### alpha
 
-`Value must be letters`
+Default error message: `Value must be letters`
 
 
 ### alphanumeric
 [todo: broken]
-`Letters and numbers required`
+Default error message: `Letters and numbers required`
+
+
+### characters4
+`At least 4 characters please`
 
 
 ### dob (date of birth)
@@ -84,37 +92,33 @@ $('form').valideater({
 });
 ```
 `Please give a valid date of birth`
-		
-
-### characters4
-`At least 4 characters please`
 
 
 ### email
-`Invalid email`
+Default error message: `Invalid email`
 
 
 ### matches
 [todo: explain]
-`These values do not match`
+Default error message: `These values do not match`
 
 
 ### numeric
-`Value must be numeric`
+Default error message: `Value must be numeric`
 
 
 ### postcode
 [todo: Containsspace improvement required]
-`Invalid postcode`
+Default error message: `Invalid postcode`
 
 
 ### radio
-The `data-vldtr` attribute must be on a wrapping parent element, so as not to interfere with other unrelated radio buttons in the form.
-`Please choose an option`
+The `data-vldtr` attribute must be on a wrapping parent element (eg: <fieldset>), so as not to interfere with other unrelated radio buttons in the form.
+Default error message: `Please choose an option`
 
 
 ### required
-`This information is required`
+Default error message: `This information is required`
 
 
 

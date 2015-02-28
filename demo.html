@@ -3,34 +3,36 @@
 <head>
 <title>Valideater demo page</title>
 	<style>
-		form { width:400px; margin:20 auto; }
-		form input[type*=e] { display:block; width:100%; margin:0 0 20px; font-size:14px; padding:5px; }
-		form input[type*=e].error { margin-bottom:5px; }
+		form { width:400px; margin:40px auto; }
+		form input { display:block; width:100%; margin:0 0 30px; font-size:14px; padding:5px; box-sizing:border-box;}
 
-		form fieldset { border:none; padding:0; margin:0 0 20px; }
-		.js-alert { font-size:12px; margin:0 0 10px; padding:0; color:red; display:block; }
-		.js-error { border:1px solid red;}
+		form fieldset { border:none; padding:0; margin:0 0 30px; }
+		form input[type=radio] { width:auto; display:inline-block; margin:0 5px 0 0; }
+		form input[type=radio] + label { margin-right:10px; }
 
-		.dob { overflow:hidden; }
-		.dob input[type=number] { width:30%; float:left; }
-		.dob input[type=number] + input[type=number] { margin-left:5%; }
+		form .js-vldtr-error { border:1px solid red; }
+		form .js-vldtr-error:not([data-vldtr-alert="false"]) { margin-bottom:5px; }
+		form fieldset.js-vldtr-error { padding:10px; margin:0 0 10px;}
+		
+		.js-vldtr-alert { font-size:12px; margin:0 0 20px; padding:0; color:red; display:inline-block; }
+		.js-vldtr-alert + .js-vldtr-alert { margin-left:5px; }
 	</style>
 </head>
 <body>
 
 <form action="http://dictionary.reference.com/browse/success">
-	<input type="text" placeholder="Name" data-vldtr="alpha">
-	<input type="text" placeholder="Company" data-vldtr="alpha" data-vldtr-alpha="Unique attribute error message">
+	<input type="text" placeholder="First name" data-vldtr="alpha">
+	<input type="text" placeholder="Last name (supress alert)" data-vldtr="alpha" data-vldtr-alert="false">
+	<input type="text" placeholder="Company" data-vldtr="required" data-vldtr-alpha="Unique attribute error message">
 	<input type="text" placeholder="Username" data-vldtr="alphanumeric">
 	<input type="text" placeholder="DD/MM/YYYY" data-vldtr="dob" data-vldtr-ageover="21">
-	<input type="text" placeholder="Password" data-vldtr="characters4">
+	<input type="text" placeholder="Password" data-vldtr="characters4,required">
 	<input type="email" placeholder="Email" data-vldtr="required,email">
-	<input type="number" placeholder="Phone number" data-vldtr="numeric">
+	<input type="number" placeholder="Phone number" data-vldtr="numeric,required">
 	<input type="text" placeholder="Postcode" data-vldtr="postcode">
 	<fieldset class="gender" data-vldtr="radio">
 		<input type="radio" value="f" id="female">
 		<label for="female">Female</label>
-		<br>
 		<input type="radio" value="m" id="male">
 		<label for="male">Male</label>
 	</fieldset>

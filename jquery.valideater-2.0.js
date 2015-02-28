@@ -7,20 +7,21 @@
 		// Default, overridable error messages
 		var defaults = {
 				'errorMessages': {
-					'alpha':		'Value must be letters',
-					'alphanumeric': 'Letters and numbers required',
-					'characters4':	'At least 4 characters please',
-					'dob':			'Please give a valid date of birth',
-					'email':		'Invalid email',
-					'matches':		'These values do not match',
-					'numeric':		'Value must be numeric',
-					'postcode':		'Invalid postcode',
-					'radio':		'Please choose an option',
-					'required':		'This information is required'
+					'alpha':		'Value must be letters.',
+					'alphanumeric': 'Letters and numbers required.',
+					'characters4':	'At least 4 characters please.',
+					'dob':			'Please give a valid date of birth.',
+					'email':		'Invalid email.',
+					'matches':		'These values do not match.',
+					'numeric':		'Value must be numeric.',
+					'postcode':		'Invalid postcode.',
+					'radio':		'Please choose an option.',
+					'required':		'This information is required.'
 				},
 				'livecheck':	true,
 				'maxAge':		100,
-				'ageover':		null
+				'ageover':		null,
+				'alerts':		true
 		};
 
 		var settings = $.extend({}, defaults, options);
@@ -184,13 +185,13 @@
 			},
 
 			showAlert: function(el, validor){
-				el.addClass('js-error');
+				el.addClass('js-vldtr-error');
 
-				if (el.attr('data-alert') !== false) {
+				if (!el.attr('data-vldtr-alert')) {
 					var customMsg = el.attr('data-vldtr-' + validor),
 						msg = (customMsg) ? customMsg : settings.errorMessages[validor];
 
-					el.after('<span class="js-alert js-alert-' + validor + ' js-' + el.ref + '">' + msg + '</span>');
+					el.after('<span class="js-vldtr-alert js-vldtr-alert-' + validor + ' js-vldtr-' + el.ref + '">' + msg + '</span>');
 				}
 			},
 
@@ -200,10 +201,10 @@
 					return prop !== validor;
 				});
 
-				$('.js-alert-' + validor + '.js-' + el.ref).remove();
+				$('.js-vldtr-alert-' + validor + '.js-vldtr-' + el.ref).remove();
 
 				if (methods.invalidElements[el.ref].length === 0){
-					el.removeClass('js-error');
+					el.removeClass('js-vldtr-error');
 				}
 			},
 
