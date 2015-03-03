@@ -4,12 +4,12 @@ A jQuery/Zepto form validation plugin using HTML data attributes.
 
 
 To initialise a specific form: 
-```sh
+```javascript
 $('form.cssSelector').vldtr();
 ```
 
 To initialise each form on a page:
-```sh
+```javascript
 $('form').each(function () {
 	$(this).vldtr();
 });
@@ -30,7 +30,7 @@ $('form').each(function () {
 
 
 To validate an element add a `data-vldtr` attribute with a comma separated list of validations as the value, eg:
-```sh
+```html
 <input type="text" data-vldtr="required,alpha,characters4">
 ```
 
@@ -38,13 +38,13 @@ Customisation
 -------------
 
 Error messages can be customised by adding a `data-vldtr-err-[name]` attribute in the markup eg:
-```sh
+```html
 <input type="text" data-vldtr="required" data-vldtr-err-required="My unique error msg">
 ```
 
 Or they can be customised with JS at initialisation:
 
-```sh
+```javascript
 $('form.myClass').vldtr({
 	alpha:			'Letters only please',
 	alphanumeric:	'You must use numbers and letters',
@@ -53,18 +53,18 @@ $('form.myClass').vldtr({
 ```
 
 To suppress alert messages for an element add `data-vldtr-alert="false"` as an attribute (CSS classes will still be added):
-```sh
+```html
 <input type="text" data-vldtr="required" data-vldtr-alert="false">
 
 ```
 
 If you'd like to turn error messages off for all elements, pass in:
-```sh
+```javascript
 alerts: false
 ```
 
 Forms with errors are re-validated on each keystroke by default, prevent this with: 
-```sh
+```javascript
 livecheck: false
 ```
 
@@ -77,7 +77,7 @@ CSS
 Various `js-vldtr-error` and `js-vldtr-alert` CSS classes are added to the markup for styling. 
 
 The names can be overriden with JS at initialisation:
-```sh
+```javascript
 $('form').vldtr({
 	errorCssClass: 'js-myCustomErrorClass',
 	alertCssClass: 'js-myCustomAlertClass'
@@ -112,7 +112,7 @@ Requires date format: DD/MM/YYYY
 The default minimum and maximum age requirements are 18 and 122 years old.
 
 These can be overriden as attributes on the input: `data-vldtr-minage="21"` and `data-vldtr-maxage="100"`. Or using JS at initialisation:
-```sh
+```javascript
 $('form').valideater({
 	minage: 16,
 	maxage: 65
@@ -133,7 +133,7 @@ Field value must match that of another.
 
 Requires attribute `data-vldtr-matches` value to be ID of the element to match, eg:
 
-```sh
+```html
 <input type="email" placeholder="Email" id="toMatch" data-vldtr="email">
 <input type="email" placeholder="Confirm email" data-vldtr="matches" data-vldtr-matches="toMatch">
 ```
