@@ -1,7 +1,6 @@
 # Valideater (vldtr) 2.0
 
-A jQuery/Zepto form validation plugin using HTML data attributes.
-
+A jQuery/Zepto form validation plugin using HTML data attributes [[demo](http://maxbarrett.github.io/valideater/)].
 
 To initialise a specific form: 
 ```javascript
