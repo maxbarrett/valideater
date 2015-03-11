@@ -7,7 +7,9 @@ var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var minifyHTML = require('gulp-minify-html');
-
+var header = require('gulp-header');
+var pkg = require('./package.json');
+var info = '// <%= pkg.name %>@v<%= pkg.version %>, <%= pkg.license %>\n';
 
 // Delete existing dist folder
 gulp.task('clean', require('del').bind(null, ['dist']));
@@ -29,6 +31,7 @@ gulp.task('scripts', function() {
         	path.basename += "-min";
     	}))
         .pipe(uglify())
+        .pipe(header(info, { pkg : pkg }))
         .pipe(gulp.dest('./dist/js'));
 });
 
