@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Valideater demo page</title>
-	<style>
+<!DOCTYPE html><html><head><title>Valideater demo page</title><style>
 		form { width:400px; margin:40px auto; }
 		form input { display:block; width:100%; margin:0 0 30px; font-size:14px; padding:5px; box-sizing:border-box;}
 
@@ -16,55 +12,6 @@
 		
 		.js-vldtr-alert { font-size:12px; margin:0 0 20px; padding:0; color:red; display:inline-block; }
 		.js-vldtr-alert + .js-vldtr-alert { margin-left:5px; }
-	</style>
-</head>
-<body>
-
-<form action="http://dictionary.reference.com/browse/success" id="demo">
-
-	<input type="text" placeholder="First name" data-vldtr="alpha">
-	<input type="text" placeholder="Last name (supress alert)" data-vldtr="alpha" data-vldtr-alert="false">
-	<input type="text" placeholder="Company" data-vldtr="required" data-vldtr-err-alpha="Unique attribute error message">
-	<input type="text" placeholder="Username" data-vldtr="alphanumeric,characters4">
-	<input type="text" placeholder="DD/MM/YYYY" data-vldtr="dob" data-vldtr-minage="21">
-	<input type="text" placeholder="Password" data-vldtr="characters4,required">
-
-	<input type="email" placeholder="Email" id="toMatch" data-vldtr="required,email">
-	<input type="email" placeholder="Confirm email" data-vldtr="matches" data-vldtr-matches="toMatch">
-
-	<input type="number" placeholder="Phone number" data-vldtr="numeric,required">
-	<input type="text" placeholder="Postcode" data-vldtr="postcode">
-	<fieldset class="gender" data-vldtr="radio">
-		<input type="radio" value="f" id="female">
-		<label for="female">Female</label>
-		<input type="radio" value="m" id="male">
-		<label for="male">Male</label>
-	</fieldset>
-
-	<input type="submit" value="Submit">
-
-</form>
-
-<!--
-* alpha:		'Value must be letters'
-* alphanumeric:	'Letters and numbers required'
-* dob:			'Please give a valid date of birth'
-* characters4:	'At least 4 characters please'
-* email:		'Invalid email'
-* matches:		'These values do not match'
-* numeric:		'Value must be numeric'
-* postcode:		'Invalid postcode'
-* radio:		'Please choose an option'
-* required:		'This information is required'
--->
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="jquery.valideater-2.0.js"></script>
-
-<script>
+	</style></head><body><form action="http://dictionary.reference.com/browse/success" id="demo"><input type="text" placeholder="First name" data-vldtr="alpha"> <input type="text" placeholder="Last name (supress alert)" data-vldtr="alpha" data-vldtr-alert="false"> <input type="text" placeholder="Company" data-vldtr="required" data-vldtr-err-alpha="Unique attribute error message"> <input type="text" placeholder="Username" data-vldtr="alphanumeric,characters4"> <input type="text" placeholder="DD/MM/YYYY" data-vldtr="dob" data-vldtr-minage="21"> <input type="text" placeholder="Password" data-vldtr="characters4,required"> <input type="email" placeholder="Email" id="toMatch" data-vldtr="required,email"> <input type="email" placeholder="Confirm email" data-vldtr="matches" data-vldtr-matches="toMatch"> <input type="number" placeholder="Phone number" data-vldtr="numeric,required"> <input type="text" placeholder="Postcode" data-vldtr="postcode"><fieldset class="gender" data-vldtr="radio"><input type="radio" value="f" id="female"> <label for="female">Female</label> <input type="radio" value="m" id="male"> <label for="male">Male</label></fieldset><input type="submit" value="Submit"></form><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><script src="js/jquery.valideater-2.0.js"></script><script>
 	$('form#demo').vldtr();
-</script>
-
-</body>
-</html>
+</script></body></html>
