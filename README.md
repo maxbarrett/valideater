@@ -1,17 +1,10 @@
-# Valideater (vldtr) 2.0
+# Valideater 2.0.1
 
 A jQuery/Zepto form validation plugin using HTML data attributes [[demo](http://maxbarrett.github.io/valideater/)].
 
-To initialise a specific form: 
+Initialise all forms on a page: 
 ```javascript
-$('form.cssSelector').vldtr();
-```
-
-To initialise each form on a page:
-```javascript
-$('form').each(function () {
-	$(this).vldtr();
-});
+$('form').valideater();
 ```
 
 | Validation    | Default error message               |
@@ -44,7 +37,7 @@ Error messages can be customised by adding a `data-vldtr-err-[name]` attribute i
 Or they can be customised with JS at initialisation:
 
 ```javascript
-$('form.myClass').vldtr({
+$('form.myClass').valideater({
 	alpha:			'Letters only please',
 	alphanumeric:	'You must use numbers and letters',
 	dob:			'When were you born?'
@@ -77,7 +70,7 @@ Various `js-vldtr-error` and `js-vldtr-alert` CSS classes are added to the marku
 
 The names can be overriden with JS at initialisation:
 ```javascript
-$('form').vldtr({
+$('form').valideater({
 	errorCssClass: 'js-myCustomErrorClass',
 	alertCssClass: 'js-myCustomAlertClass'
 });
