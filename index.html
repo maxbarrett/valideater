@@ -45,6 +45,20 @@
 
 </form>
 
+
+<form action="http://dictionary.reference.com/browse/success">
+
+	<input type="text" placeholder="First name" data-vldtr="alpha">
+	<input type="text" placeholder="Last name (supress alert)" data-vldtr="alpha" data-vldtr-alert="false">
+	<input type="text" placeholder="Company" data-vldtr="required" data-vldtr-err-alpha="Unique attribute error message">
+	<input type="text" placeholder="Username" data-vldtr="alphanumeric,characters4">
+	<input type="text" placeholder="DD/MM/YYYY" data-vldtr="dob" data-vldtr-minage="21">
+	<input type="text" placeholder="Password" data-vldtr="characters4,required">
+
+	<input type="submit" value="Submit">
+
+</form>
+
 <!--
 * alpha:		'Value must be letters'
 * alphanumeric:	'Letters and numbers required'
@@ -62,11 +76,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!-- build:js js/jquery.valideater-2.0-min.js -->
-<script src="js/jquery.valideater-2.0.js"></script>
+<script src="js/jquery.valideater-2.0.1.js"></script>
 <!-- endbuild -->
 
 <script>
-	$('form#demo').vldtr();
+	$('form').valideater();
 </script>
 
 </body>
