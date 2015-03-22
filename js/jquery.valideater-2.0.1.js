@@ -120,10 +120,10 @@
 			var age = this.formatAge(el);
 
 			if (age > maxage) {
-				settings.dob = 'You cannot be older than ' + maxage + ' years old.';
+				this.settings.dob = 'You cannot be older than ' + maxage + ' years old.';
 				return true;
 			} else if (age < minage) {
-				settings.dob = 'You must be older than ' + minage + ' years old.';
+				this.settings.dob = 'You must be older than ' + minage + ' years old.';
 				return true;
 			}
 
@@ -280,4 +280,4 @@
 		});
 	};
 
-})( jQuery || Zepto, window, document );
+})( window.jQuery || window.Zepto, window, document );

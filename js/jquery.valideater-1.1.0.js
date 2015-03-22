@@ -457,7 +457,7 @@
 		} else if (typeof method === 'object' || !method) {
 			return methods.init.apply(this);
 		} else {
-			alert('Method ' + method + ' does not exist on jQuery.valideater');
+			window.alert('Method ' + method + ' does not exist on jQuery.valideater');
 		}
 
 
