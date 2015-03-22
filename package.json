@@ -1,8 +1,8 @@
 {
   "name": "valideater",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "HTML form validation with JavaScript",
-  "main": "jquery.valideater-2.0.js",
+  "main": "jquery.valideater-2.0.1.js",
   "dependencies": {
     "gulp": "~3.8.11",
     "del": "~1.1.1",
