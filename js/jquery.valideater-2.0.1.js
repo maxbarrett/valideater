@@ -48,12 +48,15 @@
 	// Avoid Plugin.prototype conflicts
 	$.extend(Plugin.prototype, {
 		init: function () {
-			// this.yourOtherFunction(this.element, this.settings).
 			var self = this;
+
+			// Create an empty object for elements that don't validate
+			this.element.invalidElements = {};
+
+			self.assignRef(); // Assign a unique reference to each input element
 
 			return $(this.element).on('submit', function() {
 				self.hasErrors = false; // Reset errors
-				self.assignRef(); // Assign a unique reference to each input
 				self.validate(); // Run the checks
 
 				if (self.hasErrors === false) {
@@ -76,7 +79,7 @@
 			});
 
 			// focus on the first error field
-			var firstError = $('.' + this.settings.errorCssClass + ':first'),
+			var firstError = $('.' + this.settings.errorCssClass + ':first', this.element),
 				formInputs = 'input, select, textarea, button';
 
 			if ( firstError.is(formInputs) ) {
@@ -176,16 +179,15 @@
 		},
 
 		assignRef: function(){
-			$('[data-vldtr]', this.element).each(function(num) {
-				this.ref = this.type + num;
+			var timestamp = new Date().getTime();
+			$('[data-vldtr]', this.element).each(function(n) {
+				this.ref = this.type + n;
 			});
 		},
 
-		invalidElements: {},
-
 		addError: function(el, validator){
 			var reference = el[0].ref;
-			var errs = this.invalidElements;
+			var errs = this.element.invalidElements;
 
 			// create an obj prop with array of errors
 			errs[reference] = errs[reference] || [];
@@ -198,15 +200,16 @@
 		},
 
 		showAlert: function(el, validator){
-			el.addClass(this.errorCssClass);
+			var self = this;
+			el.addClass(self.settings.errorCssClass);
 
 			if (!el.attr('data-vldtr-alert')) {
 				var customMsg = el.attr('data-vldtr-err-' + validator),
-					msg = (customMsg) ? customMsg : this.settings[validator],
+					msg = (customMsg) ? customMsg : self.settings[validator],
 					alert = $('<span>' + msg + '</span>');
 
-				alert.addClass(this.settings.alertCssClass)
-					.addClass(this.settings.alertCssClass + '-' + validator)
+				alert.addClass(self.settings.alertCssClass)
+					.addClass(self.settings.alertCssClass + '-' + validator)
 					.addClass('js-vldtr-' + el[0].ref);
 
 				el.after(alert);
@@ -217,13 +220,13 @@
 			var reference = el[0].ref;
 
 			// remove the element from error array
-			this.invalidElements[reference] = $.grep(this.invalidElements[reference], function(prop) {
+			this.element.invalidElements[reference] = $.grep(this.element.invalidElements[reference], function(prop) {
 				return prop !== validator;
 			});
 
-			$('.' + this.settings.alertCssClass + '-' + validator + '.js-vldtr-' + reference).remove();
+			$('.' + this.settings.alertCssClass + '-' + validator + '.js-vldtr-' + reference, this.element).remove();
 
-			if (this.invalidElements[reference].length === 0){
+			if (this.element.invalidElements[reference].length === 0){
 				el.removeClass(this.settings.errorCssClass);
 			}
 		},
@@ -238,7 +241,7 @@
 				if (this[validator]) {
 					if (this[validator](el) === true){
 						this.addError(el, validator);
-					} else if ($.inArray(validator, this.invalidElements[el[0].ref]) !== -1){
+					} else if ($.inArray(validator, this.element.invalidElements[el[0].ref]) !== -1){
 						this.removeError(el, validator);
 					}
 				}
@@ -247,7 +250,7 @@
 
 		validate: function(el){
 			var self = this,
-				errs = self.invalidElements;
+				errs = this.element.invalidElements;
 
 			if (!el) { // if we're not doing a livecheck...
 				$('[data-vldtr]', self.element).each(function(){
