@@ -1,6 +1,6 @@
 {
   "name": "valideater",
-  "version": "2.0.1",
+  "version": "0.2.2",
   "description": "HTML form validation with JavaScript",
   "main": "jquery.valideater-2.0.1.js",
   "dependencies": {

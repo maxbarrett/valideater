@@ -5,7 +5,7 @@
    \ \/ / _` | | |/ _` |/ _ \/ _` | __/ _ \ '__|
     \  / (_| | | | (_| |  __/ (_| | ||  __/ |   
      \/ \__,_|_|_|\__,_|\___|\__,_|\__\___|_|   
- Version: 2.0.1
+ Version: 0.2.2
   Author: Max Barrett
     Docs: http://maxbarrett.github.io/valideater/
     Repo: http://github.com/maxbarrett/valideater

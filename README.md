@@ -1,4 +1,4 @@
-# Valideater 2.0.1
+# Valideater 0.2.2
 
 A jQuery/Zepto form validation plugin using HTML data attributes [[demo](http://maxbarrett.github.io/valideater/)].
 
